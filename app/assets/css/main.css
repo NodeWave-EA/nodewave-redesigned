@@ -1,0 +1,568 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+html {
+  scroll-behavior: smooth;
+  /* set fontsize to 10px for root element (10px / 16px * 100 */
+  font-size: 62.5%;
+  font-family: var(--font-typewriter), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: white;
+  transition: background-color 0.3s ease-out;
+}
+
+html.dark {
+  background-color: #030712;
+}
+
+/* Use Typewriter for all code/pre tags */
+code,
+pre,
+kbd,
+samp {
+  font-family: var(--font-typewriter-raw), sans-serif;
+}
+
+/* Make all headings use Display font automatically */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display), sans-serif;
+  letter-spacing: -0.02em;
+  /* Makes Playfair look more premium */
+}
+
+/*
+* Custom Design System
+*/
+
+@theme static {
+  /* The "Clean" Typewriter */
+  --font-typewriter-clean: "IBM Plex Mono", monospace;
+  /* The "Gritty" Analog Typewriter */
+  --font-typewriter-raw: "Special Elite", serif;
+  --font-typewriter: "IBM Plex Mono", ui-monospace, monospace;
+  /* Typography — Inter (Sans) & Playfair (Serif) */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+  --font-display: "Playfair Display", serif;
+  /* Elegant for headlines */
+  --color-brand-50: #f0f9ff;
+  --color-brand-100: #e0f2fe;
+  --color-brand-200: #bae6fd;
+  --color-brand-300: #7dd3fc;
+  --color-brand-400: #38bdf8;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+  --color-brand-700: #1d4ed8;
+  --color-brand-800: #1e40af;
+  --color-brand-900: #1e3a8a;
+  --color-brand-950: #172554;
+
+  /* Custom brand teal palette */
+  --color-teal-50: #f0fdfa;
+  --color-teal-100: #ccfbf1;
+  --color-teal-200: #99f6e4;
+  --color-teal-300: #5eead4;
+  --color-teal-400: #2dd4bf;
+  --color-teal-500: #14b8a6;
+  --color-teal-600: #0d9488;
+  --color-teal-700: #0f766e;
+  --color-teal-800: #115e59;
+  --color-teal-900: #134e4a;
+  --color-teal-950: #042f2e;
+
+  /* Custom green for success states */
+  --color-green-50: #ecfdf5;
+  --color-green-100: #d1fae5;
+  --color-green-200: #a7f3d0;
+  --color-green-300: #6ee7b7;
+  --color-green-400: #34d399;
+  --color-green-500: #10b981;
+  --color-green-600: #059669;
+  --color-green-700: #047857;
+  --color-green-800: #065f46;
+  --color-green-900: #064e3b;
+  --color-green-950: #022c22;
+
+  /* Animations */
+  --animate-fade-in: fade-in 0.5s ease-out both;
+  --animate-fade-in-up: fade-in-up 0.6s ease-out both;
+  --animate-fade-in-down: fade-in-down 0.5s ease-out both;
+  --animate-slide-in-left: slide-in-left 0.5s ease-out both;
+  --animate-slide-in-right: slide-in-right 0.5s ease-out both;
+  --animate-scale-in: scale-in 0.4s ease-out both;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-soft: pulse-soft 3s ease-in-out infinite;
+  --animate-shimmer: shimmer 2s ease-in-out infinite;
+  --animate-gradient: gradient-shift 8s ease infinite;
+  --animate-count-up: count-up 1s ease-out both;
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+}
+
+/* ─── Keyframes ─── */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes pulse-soft {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 8px rgba(20, 184, 166, 0.2);
+  }
+
+  to {
+    box-shadow: 0 0 20px rgba(20, 184, 166, 0.4);
+  }
+}
+
+/* ─── Staggered animations ─── */
+.stagger-1 {
+  animation-delay: 0.1s;
+}
+
+.stagger-2 {
+  animation-delay: 0.2s;
+}
+
+.stagger-3 {
+  animation-delay: 0.3s;
+}
+
+.stagger-4 {
+  animation-delay: 0.4s;
+}
+
+.stagger-5 {
+  animation-delay: 0.5s;
+}
+
+.stagger-6 {
+  animation-delay: 0.6s;
+}
+
+.stagger-7 {
+  animation-delay: 0.7s;
+}
+
+.stagger-8 {
+  animation-delay: 0.8s;
+}
+
+/* ─── Scroll-triggered animate on visible ─── */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease-out,
+  transform 0.6s ease-out;
+}
+
+.animate-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Custom Skeleton Loader ─── */
+.skeleton {
+  background: linear-gradient(90deg,
+  var(--color-gray-100) 25%,
+  var(--color-gray-200) 37%,
+  var(--color-gray-100) 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: 0.5rem;
+}
+
+.dark .skeleton {
+  background: linear-gradient(90deg,
+  var(--color-gray-800) 25%,
+  var(--color-gray-700) 37%,
+  var(--color-gray-800) 63%);
+  background-size: 400% 100%;
+}
+
+/* ─── Gradient text utility ─── */
+.gradient-text {
+  background: linear-gradient(135deg,
+  var(--color-teal-500),
+  var(--color-teal-300),
+  var(--color-blue-500));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-warm {
+  background: linear-gradient(135deg,
+  var(--color-amber-400),
+  var(--color-orange-500),
+  var(--color-red-500));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Glassmorphism card ─── */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .glass {
+  background: rgba(15, 23, 42, 0.7);
+  border-color: rgba(51, 65, 85, 0.4);
+}
+
+/* ─── Gradient backgrounds ─── */
+.bg-gradient-radial {
+  background: radial-gradient(ellipse at top,
+  rgba(from var(--color-teal-500) r g b / 0.08),
+  transparent 60%),
+  radial-gradient(ellipse at bottom right,
+    rgba(from var(--color-blue-500) r g b / 0.06),
+    transparent 50%);
+}
+
+.dark .bg-gradient-radial {
+  background: radial-gradient(ellipse at top,
+  rgba(from var(--color-teal-500) r g b / 0.12),
+  transparent 60%),
+  radial-gradient(ellipse at bottom right,
+    rgba(from var(--color-blue-500) r g b / 0.08),
+    transparent 50%);
+}
+
+.bg-mesh-gradient {
+  background: radial-gradient(at 0% 0%,
+  rgba(from var(--color-teal-500) r g b / 0.08) 0px,
+  transparent 50%),
+  radial-gradient(at 100% 0%,
+    rgba(from var(--color-blue-500) r g b / 0.06) 0px,
+    transparent 50%),
+  radial-gradient(at 100% 100%,
+    rgba(from var(--color-purple-500) r g b / 0.04) 0px,
+    transparent 50%),
+  radial-gradient(at 0% 100%,
+    rgba(from var(--color-teal-500) r g b / 0.06) 0px,
+    transparent 50%);
+}
+
+/* ─── Interactive card hover ─── */
+.hover-lift {
+  transition: transform 0.3s ease,
+  box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
+}
+
+.dark .hover-lift:hover {
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+}
+
+/* ─── Grid pattern overlay ─── */
+.grid-pattern {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.dark .grid-pattern {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+/* ─── Dot pattern ─── */
+.dot-pattern {
+  background-image: radial-gradient(circle,
+  rgba(0, 0, 0, 0.06) 1px,
+  transparent 1px);
+  background-size: 24px 24px;
+}
+
+.dark .dot-pattern {
+  background-image: radial-gradient(circle,
+  rgba(255, 255, 255, 0.06) 1px,
+  transparent 1px);
+}
+
+/* ─── Smooth page transitions ─── */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.25s ease,
+  transform 0.25s ease;
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.layout-enter-active,
+.layout-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.layout-enter-from,
+.layout-leave-to {
+  opacity: 0;
+}
+
+/* ─── Scrollbar styling ─── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gray-300);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gray-400);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--color-gray-600);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gray-500);
+}
+
+/* ─── Focus ring consistency ─── */
+*:focus-visible {
+  outline: 2px solid var(--color-teal-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── Smooth transitions on color mode change ─── */
+html.color-mode-transition,
+html.color-mode-transition *,
+html.color-mode-transition *::before,
+html.color-mode-transition *::after {
+  transition: background-color 0.3s ease,
+  border-color 0.3s ease,
+  color 0.2s ease !important;
+  transition-delay: 0s !important;
+}
+
+/* ─── Rich text content styling ─── */
+.prose-custom h1 {
+  font-size: 2em;
+  font-weight: 800;
+  margin-bottom: 0.5em;
+}
+
+.prose-custom h2 {
+  font-size: 1.5em;
+  font-weight: 700;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.prose-custom h3 {
+  font-size: 1.25em;
+  font-weight: 600;
+  margin-top: 1.2em;
+  margin-bottom: 0.4em;
+}
+
+.prose-custom p {
+  margin-bottom: 1em;
+  line-height: 1.75;
+}
+
+.prose-custom ul,
+.prose-custom ol {
+  margin-bottom: 1em;
+  padding-left: 1.5em;
+}
+
+.prose-custom li {
+  margin-bottom: 0.25em;
+}
+
+.prose-custom code {
+  background: var(--color-gray-100);
+  padding: 0.125em 0.375em;
+  border-radius: 0.25em;
+  font-size: 0.875em;
+  font-family: var(--font-typewriter-raw), sans-serif;
+}
+
+.dark .prose-custom code {
+  background: var(--color-gray-800);
+}
+
+.prose-custom pre {
+  background: var(--color-gray-900);
+  color: var(--color-gray-100);
+  padding: 1em;
+  border-radius: 0.5em;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+
+.prose-custom pre code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+.prose-custom a {
+  color: var(--color-teal-600);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.dark .prose-custom a {
+  color: var(--color-teal-400);
+}
+
+.prose-custom blockquote {
+  border-left: 3px solid var(--color-teal-500);
+  padding-left: 1em;
+  margin: 1em 0;
+  font-style: italic;
+  color: var(--color-gray-600);
+}
+
+.dark .prose-custom blockquote {
+  color: var(--color-gray-400);
+}
+
+.prose-custom img {
+  border-radius: 0.5em;
+  max-width: 100%;
+  height: auto;
+}
