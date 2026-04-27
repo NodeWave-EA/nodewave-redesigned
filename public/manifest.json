@@ -27,7 +27,13 @@
   "scope": "/",
   "lang": "en-US",
   "dir": "ltr",
-  "categories": ["smart-home", "iot", "automation", "technology", "home-automation"],
+  "categories": [
+    "smart-home",
+    "iot",
+    "automation",
+    "technology",
+    "home-automation"
+  ],
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone", "fullscreen"],
   "orientation": "natural",

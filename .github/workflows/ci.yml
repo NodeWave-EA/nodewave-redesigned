@@ -15,20 +15,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v6
-
-      - name: Install node
-        uses: actions/setup-node@v6
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: ${{ matrix.node }}
-          cache: pnpm
+          bun-version: ${{ matrix.node }}
 
       - name: Install dependencies
-        run: pnpm install
+        run: bun install
 
-      - name: Lint
-        run: pnpm run lint
+      - name: Run typecheck
+        run: bun run typecheck
 
-      - name: Typecheck
-        run: pnpm run typecheck
+      - name: Run lint
+        run: bun run lint

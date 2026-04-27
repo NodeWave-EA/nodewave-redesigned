@@ -4,7 +4,7 @@
 html {
   scroll-behavior: smooth;
   /* set fontsize to 10px for root element (10px / 16px * 100 */
-  font-size: 62.5%;
+  /*font-size: 62.5%;*/
   font-family: var(--font-typewriter), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -174,7 +174,6 @@ h4 {
 }
 
 @keyframes float {
-
   0%,
   100% {
     transform: translateY(0);
@@ -186,7 +185,6 @@ h4 {
 }
 
 @keyframes pulse-soft {
-
   0%,
   100% {
     opacity: 1;
@@ -268,8 +266,9 @@ h4 {
 .animate-on-scroll {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.6s ease-out,
-  transform 0.6s ease-out;
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
 }
 
 .animate-on-scroll.is-visible {
@@ -279,39 +278,47 @@ h4 {
 
 /* ─── Custom Skeleton Loader ─── */
 .skeleton {
-  background: linear-gradient(90deg,
-  var(--color-gray-100) 25%,
-  var(--color-gray-200) 37%,
-  var(--color-gray-100) 63%);
+  background: linear-gradient(
+    90deg,
+    var(--color-gray-100) 25%,
+    var(--color-gray-200) 37%,
+    var(--color-gray-100) 63%
+  );
   background-size: 400% 100%;
   animation: shimmer 1.4s ease infinite;
   border-radius: 0.5rem;
 }
 
 .dark .skeleton {
-  background: linear-gradient(90deg,
-  var(--color-gray-800) 25%,
-  var(--color-gray-700) 37%,
-  var(--color-gray-800) 63%);
+  background: linear-gradient(
+    90deg,
+    var(--color-gray-800) 25%,
+    var(--color-gray-700) 37%,
+    var(--color-gray-800) 63%
+  );
   background-size: 400% 100%;
 }
 
 /* ─── Gradient text utility ─── */
 .gradient-text {
-  background: linear-gradient(135deg,
-  var(--color-teal-500),
-  var(--color-teal-300),
-  var(--color-blue-500));
+  background: linear-gradient(
+    135deg,
+    var(--color-teal-500),
+    var(--color-teal-300),
+    var(--color-blue-500)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .gradient-text-warm {
-  background: linear-gradient(135deg,
-  var(--color-amber-400),
-  var(--color-orange-500),
-  var(--color-red-500));
+  background: linear-gradient(
+    135deg,
+    var(--color-amber-400),
+    var(--color-orange-500),
+    var(--color-red-500)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -331,42 +338,62 @@ h4 {
 
 /* ─── Gradient backgrounds ─── */
 .bg-gradient-radial {
-  background: radial-gradient(ellipse at top,
-  rgba(from var(--color-teal-500) r g b / 0.08),
-  transparent 60%),
-  radial-gradient(ellipse at bottom right,
-    rgba(from var(--color-blue-500) r g b / 0.06),
-    transparent 50%);
+  background:
+    radial-gradient(
+      ellipse at top,
+      rgba(from var(--color-teal-500) r g b / 0.08),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at bottom right,
+      rgba(from var(--color-blue-500) r g b / 0.06),
+      transparent 50%
+    );
 }
 
 .dark .bg-gradient-radial {
-  background: radial-gradient(ellipse at top,
-  rgba(from var(--color-teal-500) r g b / 0.12),
-  transparent 60%),
-  radial-gradient(ellipse at bottom right,
-    rgba(from var(--color-blue-500) r g b / 0.08),
-    transparent 50%);
+  background:
+    radial-gradient(
+      ellipse at top,
+      rgba(from var(--color-teal-500) r g b / 0.12),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at bottom right,
+      rgba(from var(--color-blue-500) r g b / 0.08),
+      transparent 50%
+    );
 }
 
 .bg-mesh-gradient {
-  background: radial-gradient(at 0% 0%,
-  rgba(from var(--color-teal-500) r g b / 0.08) 0px,
-  transparent 50%),
-  radial-gradient(at 100% 0%,
-    rgba(from var(--color-blue-500) r g b / 0.06) 0px,
-    transparent 50%),
-  radial-gradient(at 100% 100%,
-    rgba(from var(--color-purple-500) r g b / 0.04) 0px,
-    transparent 50%),
-  radial-gradient(at 0% 100%,
-    rgba(from var(--color-teal-500) r g b / 0.06) 0px,
-    transparent 50%);
+  background:
+    radial-gradient(
+      at 0% 0%,
+      rgba(from var(--color-teal-500) r g b / 0.08) 0px,
+      transparent 50%
+    ),
+    radial-gradient(
+      at 100% 0%,
+      rgba(from var(--color-blue-500) r g b / 0.06) 0px,
+      transparent 50%
+    ),
+    radial-gradient(
+      at 100% 100%,
+      rgba(from var(--color-purple-500) r g b / 0.04) 0px,
+      transparent 50%
+    ),
+    radial-gradient(
+      at 0% 100%,
+      rgba(from var(--color-teal-500) r g b / 0.06) 0px,
+      transparent 50%
+    );
 }
 
 /* ─── Interactive card hover ─── */
 .hover-lift {
-  transition: transform 0.3s ease,
-  box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .hover-lift:hover {
@@ -380,35 +407,42 @@ h4 {
 
 /* ─── Grid pattern overlay ─── */
 .grid-pattern {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-  linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
 .dark .grid-pattern {
-  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-  linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
 }
 
 /* ─── Dot pattern ─── */
 .dot-pattern {
-  background-image: radial-gradient(circle,
-  rgba(0, 0, 0, 0.06) 1px,
-  transparent 1px);
+  background-image: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.06) 1px,
+    transparent 1px
+  );
   background-size: 24px 24px;
 }
 
 .dark .dot-pattern {
-  background-image: radial-gradient(circle,
-  rgba(255, 255, 255, 0.06) 1px,
-  transparent 1px);
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.06) 1px,
+    transparent 1px
+  );
 }
 
 /* ─── Smooth page transitions ─── */
 .page-enter-active,
 .page-leave-active {
-  transition: opacity 0.25s ease,
-  transform 0.25s ease;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
 }
 
 .page-enter-from {
@@ -470,9 +504,10 @@ html.color-mode-transition,
 html.color-mode-transition *,
 html.color-mode-transition *::before,
 html.color-mode-transition *::after {
-  transition: background-color 0.3s ease,
-  border-color 0.3s ease,
-  color 0.2s ease !important;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.2s ease !important;
   transition-delay: 0s !important;
 }
 

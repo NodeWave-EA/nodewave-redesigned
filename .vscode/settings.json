@@ -6,9 +6,7 @@
     "strings": "on"
   },
   "tailwindCSS.classAttributes": ["class", "ui"],
-  "tailwindCSS.classFunctions": [
-    "defineAppConfig"
-  ],
+  "tailwindCSS.classFunctions": ["defineAppConfig"],
   // auto save and format on save using project configurations
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "modifications",
@@ -17,7 +15,7 @@
     "source.fixAll": "always",
     "source.fixAll.eslint": "always",
     "source.fixAll.stylelint": "always",
-    "source.fixAll.tslint": "always",
+    "source.fixAll.tslint": "always"
   },
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 500,

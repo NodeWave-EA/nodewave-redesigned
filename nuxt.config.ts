@@ -12,7 +12,9 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@nuxt/a11y',
     '@nuxtjs/seo',
-    '@vueuse/nuxt'
+    '@vueuse/nuxt',
+    '@vueuse/motion',
+    '@nuxtjs/color-mode'
   ],
 
   devtools: {
@@ -25,21 +27,40 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: { lang: 'en' },
-      titleTemplate: '%s | FOTA',
+      titleTemplate: '%s | Nodewave',
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'theme-color', content: '#14b8a6' },
         { name: 'msapplication-TileColor', content: '#14b8a6' },
-        { name: 'application-name', content: 'FOTA' },
-        { name: 'apple-mobile-web-app-title', content: 'FOTA' }
+        { name: 'application-name', content: 'Nodewave' },
+        { name: 'apple-mobile-web-app-title', content: 'Nodewave' }
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
-        { rel: 'icon', type: 'image/png', sizes: '96x96', href: '/favicon-96x96.png' },
-        { rel: 'icon', type: 'image/png', sizes: '192x192', href: '/web-app-manifest-192x192.png' },
-        { rel: 'icon', type: 'image/png', sizes: '512x512', href: '/web-app-manifest-512x512.png' },
-        { rel: 'apple-touch-icon', sizes: '57x57', href: '/apple-touch-icon.png' },
+        {
+          rel: 'icon',
+          type: 'image/png',
+          sizes: '96x96',
+          href: '/favicon-96x96.png'
+        },
+        {
+          rel: 'icon',
+          type: 'image/png',
+          sizes: '192x192',
+          href: '/web-app-manifest-192x192.png'
+        },
+        {
+          rel: 'icon',
+          type: 'image/png',
+          sizes: '512x512',
+          href: '/web-app-manifest-512x512.png'
+        },
+        {
+          rel: 'apple-touch-icon',
+          sizes: '57x57',
+          href: '/apple-touch-icon.png'
+        },
         { rel: 'manifest', href: '/manifest.json' }
       ]
     },
@@ -78,7 +99,8 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    '/': { prerender: true }
+    '/': { prerender: true },
+    'about': { prerender: true }
   },
 
   compatibilityDate: '2025-01-15',
