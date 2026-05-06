@@ -60,7 +60,7 @@
     "*.{css,scss,html,md}": [
       "prettier --write"
     ],
-    "*.{js,ts,vue}": [
+    "apps/web/**/*.{js,ts,vue}": [
       "prettier --write",
       "eslint --fix"
     ]
