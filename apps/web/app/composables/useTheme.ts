@@ -1,23 +1,16 @@
 import { computed, nextTick, ref } from 'vue'
-
-declare global {
-  interface Document {
-    startViewTransition?: (callback: () => void) => ViewTransition
-  }
-}
-
-interface ViewTransition {
-  ready: Promise<void>
-  finished: Promise<void>
-  skipTransition: () => void
-}
+import { useColorMode } from '@vueuse/core'
 
 export function useTheme() {
   const { $refreshHardAos } = useNuxtApp()
-  const colorMode = useColorMode()
+  const colorMode = useColorMode({
+    attribute: 'class',
+    storageKey: 'vueuse-color-scheme',
+    initialValue: 'auto'
+  })
   const lastMousePos = ref({
-    x: window.innerWidth / 2,
-    y: window.innerHeight / 2
+    x: import.meta.client ? window.innerWidth / 2 : 0,
+    y: import.meta.client ? window.innerHeight / 2 : 0
   })
 
   type ThemeEvent = MouseEvent | TouchEvent | KeyboardEvent
@@ -30,7 +23,7 @@ export function useTheme() {
   )
 
   const toggleTheme = () => {
-    colorMode.preference = newTheme.value
+    colorMode.value = newTheme.value
   }
 
   const refreshAos = () => {

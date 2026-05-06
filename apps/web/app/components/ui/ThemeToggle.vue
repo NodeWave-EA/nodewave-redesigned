@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useColorMode } from '@vueuse/core'
 import { useTheme } from '~/composables/useTheme'
 import { useKeyboard } from '~/composables/useKeyboard'
 
@@ -16,10 +17,6 @@ const elementKeyHandler = createElementKeyHandler(startViewTransition, [
   'space',
   't'
 ])
-
-addGlobalShortcut('shift+t', (e: KeyboardEvent) => {
-  startViewTransition(e)
-})
 </script>
 
 <template>

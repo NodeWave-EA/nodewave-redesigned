@@ -6,7 +6,6 @@ export default defineNuxtConfig({
     'nuxt-aos',
     '@vueuse/nuxt',
     '@vueuse/motion',
-    '@nuxtjs/color-mode',
     '@nuxtjs/seo',
     '@nuxt/a11y',
     '@nuxt/scripts',
@@ -22,13 +21,6 @@ export default defineNuxtConfig({
   },
 
   css: ['~/assets/css/main.css'],
-
-  // Ensure color mode respects the user's system preference
-  // and adds the plain `dark` class (no suffix) so our CSS `.dark` rules work.
-  colorMode: {
-    preference: 'system',
-    classSuffix: ''
-  },
 
   routeRules: {
     '/': { prerender: true }
