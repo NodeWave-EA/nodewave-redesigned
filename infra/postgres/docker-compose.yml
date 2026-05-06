@@ -1,0 +1,18 @@
+services:
+  nodewave-postgres:
+    image: postgres:17-alpine
+    container_name: nodewave-postgres
+    ports:
+      - "15432:5432"
+    environment:
+      POSTGRES_USER: nodewave
+      POSTGRES_PASSWORD: nodewave123
+      POSTGRES_DB: nodewave
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    networks:
+      - nodewave-net
+
+networks:
+  nodewave-net:
+    external: true

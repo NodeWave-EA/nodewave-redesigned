@@ -1,0 +1,68 @@
+{
+  "name": "nodewave-redesigned",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "author": {
+    "name": "Gideon Yebei",
+    "email": "yebei@nodewave.net",
+    "url": "https://nodewave.net"
+  },
+  "description": "Official website for NodeWave EA",
+  "homepage": "https://nodewave.net",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NodeWave-EA/nodewave-redesigned"
+  },
+  "bugs": {
+    "url": "https://github.com/NodeWave-EA/nodewave-redesigned/issues"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "bun --filter '*' dev",
+    "build": "bun --filter '*' build",
+    "start": "bun --filter '*' start",
+    "lint": "bun --filter '*' lint",
+    "format": "bun --filter '*' format",
+    "typecheck": "bun --filter '*' typecheck",
+    "dev:web": "bun --filter '@repo/web' dev",
+    "dev:cms": "bun --filter '@repo/cms' dev",
+    "build:web": "bun --filter '@repo/web' build",
+    "build:cms": "bun --filter '@repo/cms' build",
+    "start:web": "bun --filter '@repo/web' start",
+    "start:cms": "bun --filter '@repo/cms' start",
+    "lint:web": "bun --filter '@repo/web' lint",
+    "lint:cms": "bun --filter '@repo/cms' lint",
+    "format:web": "bun --filter '@repo/web' format",
+    "format:cms": "bun --filter '@repo/cms' format",
+    "typecheck:web": "bun --filter '@repo/web' typecheck",
+    "typecheck:cms": "bun --filter '@repo/cms' typecheck",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^25.6.0",
+    "bun-workspaces": "^1.8.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
+  },
+  "lint-staged": {
+    "*.{css,scss,html,md}": [
+      "prettier --write"
+    ],
+    "*.{js,ts,vue}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  }
+}

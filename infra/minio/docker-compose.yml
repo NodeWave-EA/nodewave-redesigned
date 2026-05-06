@@ -1,0 +1,50 @@
+services:
+  nodewave-minio:
+    image: minio/minio:latest
+    container_name: nodewave-minio
+    command: server /data --console-address ":19001" --address ":19000"
+    ports:
+      - "19000:19000"
+      - "19001:19001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin123
+    volumes:
+      - ./data:/data
+    networks:
+      - nodewave-net
+
+  nodewave-minio-client:
+    image: minio/mc:latest
+    container_name: nodewave-minio-client
+    depends_on:
+      - nodewave-minio
+    # override the default entrypoint to keep the container running
+    entrypoint: /bin/sh -c "sleep infinity"
+    # enable interactive mode for debugging
+    stdin_open: true
+    tty: true
+    networks:
+      - nodewave-net
+  create-buckets:
+    image: minio/mc:latest
+    container_name: create-buckets
+    depends_on:
+      - nodewave-minio
+    entrypoint: >
+      /usr/bin/env sh -c "
+        until /usr/bin/mc alias set local http://nodewave-minio:19000 minioadmin minioadmin123; do
+          echo 'Waiting for MinIO to be ready...';
+          sleep 2;
+        done;
+        /usr/bin/mc ls local/strapi || true;
+        /usr/bin/mc policy set public local/strapi;
+        echo 'Buckets created and policies set.';
+        exit 0;
+      "
+    networks:
+      - nodewave-net
+
+networks:
+  nodewave-net:
+    external: true

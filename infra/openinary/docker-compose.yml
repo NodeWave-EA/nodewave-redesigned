@@ -1,0 +1,36 @@
+services:
+  nodewave-openinary:
+    image: openinary/openinary:latest
+    container_name: nodewave-openinary
+    platform: linux/amd64
+    ports:
+      - "13000:3000"
+    environment:
+      NODE_ENV: production
+      API_SECRET: super-secret-key-change-this
+      PORT: 3000
+      BASE_URL: http://localhost:3000
+      PUBLIC_URL: http://localhost:3000
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:13000}
+      STORAGE_PROVIDER: s3
+      STORAGE_REGION: us-east-1
+      STORAGE_BUCKET_NAME: strapi
+      STORAGE_ACCESS_KEY_ID: minioadmin
+      STORAGE_SECRET_ACCESS_KEY: minioadmin123
+      STORAGE_ENDPOINT: http://nodewave-minio:19000
+      STORAGE_PUBLIC_URL: http://nodewave-minio:19000
+      STORAGE_FORCE_PATH_STYLE: "true"
+    volumes:
+      - ./cache:/app/apps/api/cache
+      - ./public:/app/apps/api/public
+      - ./db:/app/data
+    restart: unless-stopped
+    depends_on:
+      - nodewave-minio
+    networks:
+      - nodewave-net
+
+networks:
+  nodewave-net:
+    external: true

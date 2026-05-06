@@ -1,0 +1,5 @@
+include:
+  - infra/postgres/docker-compose.yml
+  - infra/dbeaver/docker-compose.yml
+  - infra/minio/docker-compose.yml
+  - infra/openinary/docker-compose.yml

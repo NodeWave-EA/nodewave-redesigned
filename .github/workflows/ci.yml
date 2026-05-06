@@ -1,0 +1,29 @@
+name: ci
+
+on: push
+
+jobs:
+  ci:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        bun: [latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ matrix.bun }}
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Run typecheck
+        run: bun run typecheck
+
+      - name: Run lint
+        run: bun run lint

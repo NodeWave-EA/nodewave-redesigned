@@ -1,0 +1,13 @@
+services:
+  nodewave-cloudbeaver:
+    image: dbeaver/cloudbeaver:latest
+    container_name: nodewave-cloudbeaver
+    restart: unless-stopped
+    ports:
+      - "18978:8978"
+    volumes:
+      - ./data:/opt/cloudbeaver/workspace
+
+networks:
+  nodewave-net:
+    external: true
