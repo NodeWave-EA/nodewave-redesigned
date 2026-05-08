@@ -7,6 +7,10 @@
     "nuxt-4": {
       "type": "http",
       "url": "https://nuxt.com/mcp"
+    },
+    "vueuse": {
+      "command": "bunx",
+      "args": ["vueuse-mcp"],
     }
   }
 }

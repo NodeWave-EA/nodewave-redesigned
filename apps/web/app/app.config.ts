@@ -45,6 +45,8 @@ export default defineAppConfig({
         900: '#064e3b',
         950: '#022c22'
       }
-    }
+    },
+    // components
+    button: {}
   }
 })

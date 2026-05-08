@@ -1,15 +1,22 @@
 <script lang="ts" setup>
-import { useColorMode } from '@vueuse/core'
 import { useTheme } from '~/composables/useTheme'
 import { useKeyboard } from '~/composables/useKeyboard'
+
+const mounted = ref(false)
+
+onMounted(() => {
+  mounted.value = true
+})
 
 const colorMode = useColorMode()
 
 const { newTheme, currentIcon, startViewTransition } = useTheme()
 const { addGlobalShortcut, createElementKeyHandler } = useKeyboard()
 
-addGlobalShortcut('shift+t', (e: KeyboardEvent) => {
-  startViewTransition(e)
+onMounted(() => {
+  addGlobalShortcut('shift+t', (e: KeyboardEvent) => {
+    startViewTransition(e)
+  })
 })
 
 const elementKeyHandler = createElementKeyHandler(startViewTransition, [
@@ -21,15 +28,21 @@ const elementKeyHandler = createElementKeyHandler(startViewTransition, [
 
 <template>
   <ClientOnly>
-    <span class="sr-only"> Current theme: {{ colorMode }} </span>
+    <span
+      v-if="mounted"
+      class="sr-only"
+    >
+      Current theme: {{ colorMode.value }}
+    </span>
+
     <UTooltip
+      v-if="mounted"
       :text="`Switch to ${newTheme} mode`"
       :kbds="['Space', 'Shift+T']"
     >
       <UButton
         role="button"
         :aria-label="`Switch to ${newTheme} mode`"
-        :aria-current-value="`Switch to ${newTheme} mode`"
         :icon="`i-lucide-${currentIcon}`"
         color="neutral"
         variant="ghost"
@@ -55,19 +68,3 @@ const elementKeyHandler = createElementKeyHandler(startViewTransition, [
     </UTooltip>
   </ClientOnly>
 </template>
-
-<style lang="css">
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-
-::view-transition-new(root) {
-  z-index: 9999;
-}
-
-::view-transition-old(root) {
-  z-index: 1;
-}
-</style>

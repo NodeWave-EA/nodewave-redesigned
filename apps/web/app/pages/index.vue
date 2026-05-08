@@ -1,5 +1,13 @@
+<script lang="ts" setup>
+useSeoMeta({
+  title: 'Home',
+  description:
+    'Welcome to the NodeWave Nuxt Starter Template. Build beautiful, accessible, and performant applications in minutes with Nuxt UI.'
+})
+</script>
+
 <template>
-  <div>
+  <UContainer>
     <UPageHero
       title="Nuxt Starter Template"
       description="A production-ready starter template powered by Nuxt UI. Build beautiful, accessible, and performant applications in minutes, not hours."
@@ -91,5 +99,5 @@
         ]"
       />
     </UPageSection>
-  </div>
+  </UContainer>
 </template>

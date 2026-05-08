@@ -20,6 +20,48 @@ export default defineNuxtConfig({
     enabled: true
   },
 
+  app: {
+    head: {
+      htmlAttrs: { lang: 'en' },
+      titleTemplate: '%s | NodeWave',
+      meta: [
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'theme-color', content: '#14b8a6' },
+        { name: 'msapplication-TileColor', content: '#14b8a6' },
+        {
+          name: 'msapplication-TileImage',
+          content: '/web-app-manifest-192x192.png'
+        },
+        { name: 'application-name', content: 'NodeWave' },
+        { name: 'apple-mobile-web-app-title', content: 'NodeWave' }
+      ],
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+        {
+          rel: 'icon',
+          type: 'image/png',
+          sizes: '96x96',
+          href: '/favicon-96x96.png'
+        },
+        {
+          rel: 'apple-touch-icon',
+          sizes: '192x192',
+          href: '/apple-touch-icon.png'
+        },
+        { rel: 'manifest', href: '/manifest.json' }
+      ]
+    },
+    pageTransition: {
+      name: 'page',
+      mode: 'out-in'
+    },
+    layoutTransition: {
+      name: 'layout',
+      mode: 'out-in'
+    }
+  },
+
   css: ['~/assets/css/main.css'],
 
   routeRules: {
