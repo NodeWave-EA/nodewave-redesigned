@@ -1,12 +1,103 @@
 <script setup lang="ts">
 import * as z from 'zod'
-import type { FormError, FormSubmitEvent } from '@nuxt/ui'
+import type { FormSubmitEvent } from '@nuxt/ui'
 import type { Link } from '~/types'
+import { siteConfig } from '~/app.meta'
 
 useSeoMeta({
-  title: 'Contact',
-  description:
-    'Reach out to NodeWave to discuss IoT, AI, web, and custom software projects.'
+  title: `Contact - ${siteConfig.name}`,
+  description: `Get in touch with ${siteConfig.name} to discuss IoT, AI, web, and custom software projects. ${siteConfig.description}`,
+  keywords:
+    'contact, IoT solutions, AI development, custom software, web development',
+  ogTitle: `Contact ${siteConfig.name} - Let's Build Something Together`,
+  ogDescription: `Reach out to discuss your IoT, AI, or custom software project. We respond within one business day.`,
+  ogImage: siteConfig.ogImage,
+  ogType: 'website',
+  ogUrl: `${siteConfig.url}/contact`,
+  twitterCard: 'summary_large_image',
+  twitterTitle: `Contact ${siteConfig.name} - IoT & Custom Software`,
+  twitterDescription: `Let's discuss your project. Fast response, flexible engagement.`,
+  twitterCreator: siteConfig.twitterHandle
+})
+
+defineOgImage('Contact', {
+  title: `Contact ${siteConfig.name}`,
+  subtitle: siteConfig.description,
+  emoji: '💬'
+})
+
+const schemaOrg = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${siteConfig.url}/#organization`,
+      'name': siteConfig.name,
+      'url': siteConfig.url,
+      'logo': {
+        '@type': 'ImageObject',
+        'url': siteConfig.logo,
+        'width': 200,
+        'height': 200
+      },
+      'description': siteConfig.description,
+      'contactPoint': {
+        '@type': 'ContactPoint',
+        'contactType': 'Customer Service',
+        'email': siteConfig.email,
+        'availableLanguage': ['en'],
+        'url': `${siteConfig.url}/contact`
+      },
+      'sameAs': [
+        'https://twitter.com/nodewave',
+        'https://linkedin.com/company/nodewave',
+        'https://github.com/nodewave'
+      ]
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${siteConfig.url}/contact#webpage`,
+      'url': `${siteConfig.url}/contact`,
+      'name': `Contact ${siteConfig.name}`,
+      'description': `Get in touch with ${siteConfig.name} to discuss IoT, AI, web, and custom software projects.`,
+      'isPartOf': {
+        '@id': `${siteConfig.url}/#website`
+      },
+      'primaryImageOfPage': {
+        '@type': 'ImageObject',
+        'url': siteConfig.ogImage,
+        'width': 1200,
+        'height': 630
+      }
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${siteConfig.url}/contact#breadcrumb`,
+      'itemListElement': [
+        {
+          '@type': 'ListItem',
+          'position': 1,
+          'name': 'Home',
+          'item': `${siteConfig.url}/`
+        },
+        {
+          '@type': 'ListItem',
+          'position': 2,
+          'name': 'Contact',
+          'item': `${siteConfig.url}/contact`
+        }
+      ]
+    }
+  ]
+}
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(schemaOrg)
+    }
+  ]
 })
 
 const toast = useToast()
@@ -14,13 +105,13 @@ const toast = useToast()
 const links = ref<Link[]>([
   {
     label: 'Email us',
-    to: 'mailto:info@nodewave.com',
+    to: `mailto:${siteConfig.email}`,
     icon: 'i-lucide-mail',
     size: 'lg'
   },
   {
     label: 'Book a meeting',
-    to: 'https://calendly.com/nodewave/30min',
+    to: siteConfig.calendly,
     target: '_blank',
     icon: 'i-lucide-calendar-days',
     size: 'lg'
@@ -37,9 +128,9 @@ type ContactDetail = {
 const contactDetails: ContactDetail[] = [
   {
     title: 'Email',
-    description: 'info@nodewave.com',
+    description: siteConfig.email,
     icon: 'i-lucide-mail',
-    href: 'mailto:info@nodewave.com'
+    href: `mailto:${siteConfig.email}`
   },
   {
     title: 'Typical response',
@@ -50,7 +141,7 @@ const contactDetails: ContactDetail[] = [
     title: 'Discovery call',
     description: 'Start with a quick 30 minute intro call.',
     icon: 'i-lucide-calendar-range',
-    href: 'https://calendly.com/nodewave/30min'
+    href: siteConfig.calendly
   }
 ]
 
@@ -110,12 +201,29 @@ const textareaUi = {
   trailingIcon: 'text-muted shrink-0'
 }
 
-function validate(state: Partial<Schema>): FormError[] {
+// Inline validation state
+const errors = reactive<Record<string, string>>({})
+const touched = reactive<Record<string, boolean>>({})
+const submitted = ref(false)
+
+let _validateTimer: ReturnType<typeof setTimeout> | null = null
+
+function validate(
+  state: Partial<Schema>
+): { field: string, message: string }[] {
   const result = schema.safeParse(state)
+
+  // clear previous errors
+  Object.assign(errors, {})
 
   if (result.success) {
     return []
   }
+
+  result.error.issues.forEach((issue) => {
+    const field = String(issue.path[0] ?? '')
+    errors[field] = issue.message
+  })
 
   return result.error.issues.map(issue => ({
     field: String(issue.path[0] ?? ''),
@@ -123,7 +231,40 @@ function validate(state: Partial<Schema>): FormError[] {
   }))
 }
 
+function showError(name: string) {
+  return !!errors[name] && (touched[name] || submitted.value)
+}
+
+function markTouched(name: string) {
+  touched[name] = true
+}
+
+watch(
+  () => state,
+  () => {
+    if (_validateTimer) clearTimeout(_validateTimer)
+    _validateTimer = setTimeout(() => validate(state), 350)
+  },
+  { deep: true }
+)
+
 async function onSubmit(event: FormSubmitEvent<Schema>) {
+  // mark submission attempt so errors become visible
+  submitted.value = true
+
+  // final validation before submit
+  const issues = validate(state)
+
+  if (issues.length > 0) {
+    // focus first invalid field if possible
+    const first = issues[0]!
+    const el = document.querySelector(
+      `[name="${first.field}"]`
+    ) as HTMLElement | null
+    el?.focus()
+    return
+  }
+
   toast.add({
     title: 'Message sent',
     description: 'Thanks for reaching out. We will get back to you soon.',
@@ -138,7 +279,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   <UContainer class="py-8 sm:py-10 lg:py-12 px-0">
     <UPageHero
       headline="Get in touch"
-      title="Let’s build something that actually moves the needle"
+      title="Let's build something Amazing together"
       description="Tell us what you are building, where you are stuck, or what you want to launch next. We work across IoT, AI, integrations, and custom software."
       :links="links"
       :ui="{
@@ -251,15 +392,15 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
               >
                 Send a message
               </p>
-              <h2
+              <h1
                 class="mt-2 text-2xl font-semibold tracking-tight text-default sm:text-3xl"
               >
                 Tell us about your project
-              </h2>
+              </h1>
               <p
                 class="mt-3 max-w-2xl text-sm leading-6 text-muted sm:text-base"
               >
-                We’ll use the details below to route your request to the right
+                We'll use the details below to route your request to the right
                 person and come back with next steps.
               </p>
             </div>
@@ -267,12 +408,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             <UIcon
               name="i-lucide-message-square-more"
               class="h-9 w-9 text-primary/60"
+              aria-hidden="true"
             />
           </div>
         </div>
 
         <UForm
           class="p-6 sm:p-8"
+          aria-label="Contact us form"
           :state="state"
           :validate="validate"
           @submit="onSubmit"
@@ -294,6 +437,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 >
                   <UInput
                     v-model="state.firstName"
+                    name="firstName"
                     icon="i-lucide-user"
                     placeholder="John"
                     color="neutral"
@@ -302,7 +446,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     :highlight="false"
                     class="w-full min-w-0"
                     :ui="controlUi"
+                    @blur="markTouched('firstName')"
                   />
+                  <p
+                    v-if="showError('firstName')"
+                    class="mt-2 text-xs text-red-500"
+                  >
+                    {{ errors.firstName }}
+                  </p>
                 </UFormField>
 
                 <UFormField
@@ -313,6 +464,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 >
                   <UInput
                     v-model="state.lastName"
+                    name="lastName"
                     icon="i-lucide-id-card"
                     placeholder="Doe"
                     color="neutral"
@@ -321,7 +473,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     :highlight="false"
                     class="w-full min-w-0"
                     :ui="controlUi"
+                    @blur="markTouched('lastName')"
                   />
+                  <p
+                    v-if="showError('lastName')"
+                    class="mt-2 text-xs text-red-500"
+                  >
+                    {{ errors.lastName }}
+                  </p>
                 </UFormField>
 
                 <UFormField
@@ -332,6 +491,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 >
                   <UInput
                     v-model="state.email"
+                    name="email"
                     icon="i-lucide-mail"
                     type="email"
                     placeholder="john.doe@example.com"
@@ -341,7 +501,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     :highlight="false"
                     class="w-full min-w-0"
                     :ui="controlUi"
+                    @blur="markTouched('email')"
                   />
+                  <p
+                    v-if="showError('email')"
+                    class="mt-2 text-xs text-red-500"
+                  >
+                    {{ errors.email }}
+                  </p>
                 </UFormField>
 
                 <UFormField
@@ -351,6 +518,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 >
                   <UInput
                     v-model="state.phone"
+                    name="phone"
                     icon="i-lucide-phone"
                     type="tel"
                     placeholder="+1 555 123 4567"
@@ -360,7 +528,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     :highlight="false"
                     class="w-full min-w-0"
                     :ui="controlUi"
+                    @blur="markTouched('phone')"
                   />
+                  <p
+                    v-if="showError('phone')"
+                    class="mt-2 text-xs text-red-500"
+                  >
+                    {{ errors.phone }}
+                  </p>
                 </UFormField>
               </div>
             </div>
@@ -381,6 +556,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 >
                   <USelectMenu
                     v-model="state.subject"
+                    name="subject"
                     :items="[...subjects]"
                     icon="i-lucide-layout-list"
                     placeholder="Choose a topic"
@@ -390,7 +566,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     :highlight="false"
                     class="w-full min-w-0"
                     :ui="controlUi"
+                    @blur="markTouched('subject')"
                   />
+                  <p
+                    v-if="showError('subject')"
+                    class="mt-2 text-xs text-red-500"
+                  >
+                    {{ errors.subject }}
+                  </p>
                 </UFormField>
 
                 <UFormField
@@ -401,6 +584,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 >
                   <USelectMenu
                     v-model="state.budget"
+                    name="budget"
                     :items="[...budgets]"
                     icon="i-lucide-banknote"
                     placeholder="Estimated budget"
@@ -410,7 +594,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     :highlight="false"
                     class="w-full min-w-0"
                     :ui="controlUi"
+                    @blur="markTouched('budget')"
                   />
+                  <p
+                    v-if="showError('budget')"
+                    class="mt-2 text-xs text-red-500"
+                  >
+                    {{ errors.budget }}
+                  </p>
                 </UFormField>
               </div>
             </div>
@@ -424,6 +615,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           >
             <UTextarea
               v-model="state.message"
+              name="message"
               icon="i-lucide-message-square-text"
               :rows="6"
               autoresize
@@ -435,7 +627,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
               :highlight="false"
               class="w-full min-h-40 sm:min-h-48 lg:min-h-56"
               :ui="textareaUi"
+              @blur="markTouched('message')"
             />
+            <p
+              v-if="showError('message')"
+              class="mt-2 text-xs text-red-500"
+            >
+              {{ errors.message }}
+            </p>
           </UFormField>
 
           <div

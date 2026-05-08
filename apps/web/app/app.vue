@@ -1,4 +1,16 @@
-<script lang="ts" setup>
+<script setup lang="ts">
+import { siteConfig } from '~/app.meta'
+
+useSchemaOrg([
+  {
+    '@type': 'WebSite',
+    '@id': `siteConfig.url}/#website`,
+    'name': siteConfig.name,
+    'url': siteConfig.url,
+    'description': siteConfig.description
+  }
+])
+
 const colorMode = useColorMode()
 watch(
   () => colorMode.value,

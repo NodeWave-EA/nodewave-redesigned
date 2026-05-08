@@ -1,11 +1,5 @@
 <template>
-  <UContainer
-    class="min-h-screen flex flex-col"
-    :ui="{
-      root: 'bg-default text-default',
-      container: 'min-h-screen flex flex-col'
-    }"
-  >
+  <UContainer>
     <h1 class="text-3xl font-bold mb-4">
       Support
     </h1>

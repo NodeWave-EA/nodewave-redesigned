@@ -35,12 +35,13 @@
     "pinia": "^3.0.4",
     "tailwindcss": "^4.2.4",
     "unstorage": "^1.15.0",
-    "vue": "^3.5.0"
+    "vue": "^3.5.0",
+    "vue-router": "^5.0.6"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.15.2",
     "eslint": "^10.3.0",
-    "typescript": "^6.0.3",
+    "typescript": "^5.9.3",
     "vue-tsc": "^3.2.7"
   },
   "packageManager": "bun"

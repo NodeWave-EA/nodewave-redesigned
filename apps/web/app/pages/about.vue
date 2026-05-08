@@ -1,3 +1,7 @@
+<script setup lang="ts">
+defineOgImage('About', { title: 'Hello' })
+</script>
+
 <template>
   <UContainer>
     <h1 class="text-4xl font-bold mb-4">

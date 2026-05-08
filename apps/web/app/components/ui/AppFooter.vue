@@ -21,7 +21,7 @@ const year = new Date().getFullYear()
         <ul class="flex items-center gap-4">
           <li
             v-for="link in footerLinks"
-            :key="link.to"
+            :key="link.label"
           >
             <NuxtLink
               :to="link.to"
