@@ -1,5 +1,3 @@
-export type Link = {
-  label: string
-  to: string
-  icon: string
-}
+import type { ButtonProps } from '@nuxt/ui'
+
+export type Link = ButtonProps & {}

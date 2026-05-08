@@ -1,6 +1,6 @@
 import type { Link } from '~/types'
 
-export const navLinks: Link[] = [
+export const navLinks: Pick<Link, 'label' | 'to' | 'icon'>[] = [
   { label: 'Home', to: '/', icon: 'i-lucide-house' },
   { label: 'About', to: '/about', icon: 'i-lucide-info' },
   { label: 'Contact', to: '/contact', icon: 'i-lucide-mail' },
