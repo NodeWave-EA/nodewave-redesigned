@@ -13,7 +13,9 @@ export default defineNuxtConfig({
     '@nuxt/hints',
     '@pinia/nuxt',
     '@nuxt/fonts',
-    '@nuxt/image'
+    '@nuxt/image',
+    'nuxt-schema-org',
+    'nuxt-og-image'
   ],
 
   devtools: {

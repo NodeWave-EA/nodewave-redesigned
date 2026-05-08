@@ -63,8 +63,11 @@
         "@vueuse/nuxt": "14.3.0",
         "nuxt": "^4.4.2",
         "nuxt-aos": "1.2.6",
+        "nuxt-og-image": "6.5.0",
+        "nuxt-schema-org": "6.0.4",
         "pinia": "^3.0.4",
         "tailwindcss": "^4.2.4",
+        "unstorage": "^1.15.0",
         "vue": "^3.5.0",
       },
       "devDependencies": {
