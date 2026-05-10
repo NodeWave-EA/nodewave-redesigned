@@ -29,6 +29,7 @@
     "@vueuse/core": "^14.3.0",
     "@vueuse/motion": "3.0.3",
     "@vueuse/nuxt": "14.3.0",
+    "fakeout": "^1.0.22",
     "nuxt": "^4.4.2",
     "nuxt-aos": "1.2.6",
     "nuxt-og-image": "6.5.0",
