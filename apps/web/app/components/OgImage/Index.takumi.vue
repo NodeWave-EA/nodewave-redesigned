@@ -5,7 +5,7 @@ import type { OgProps } from '~/og/types'
 
 const props = defineProps<OgProps>()
 
-const preset = presets.docs
+const preset = presets.blog
 
 const meta = computed(() => ({
   theme: props.meta?.theme ?? preset.theme,
@@ -16,7 +16,7 @@ const meta = computed(() => ({
 
 <template>
   <OgBase
-    :title="props.title ?? 'About'"
+    :title="props.title ?? 'Home'"
     :description="props.description"
     :meta="meta"
   />

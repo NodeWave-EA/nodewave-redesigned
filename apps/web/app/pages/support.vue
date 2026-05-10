@@ -1,3 +1,25 @@
+<script setup lang="ts">
+const title = 'Support'
+const description
+  = 'If you need help or have any questions about NodeWave, please reach out to our support team.'
+
+useSeoMeta({
+  title,
+  description,
+  keywords: 'support, NodeWave, help, contact'
+})
+
+defineOgImage('Index', {
+  title,
+  description,
+  meta: {
+    theme: 'teal',
+    layout: 'split',
+    brand: 'nodewave'
+  }
+})
+</script>
+
 <template>
   <UContainer>
     <h1 class="text-3xl font-bold mb-4">

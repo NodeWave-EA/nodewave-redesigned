@@ -1,3 +1,25 @@
+<script setup lang="ts">
+const title = 'Blog'
+const description
+  = 'Welcome to the NodeWave blog! Here we share news, updates, and insights about our project and the broader ecosystem.'
+
+useSeoMeta({
+  title,
+  description,
+  keywords: 'blog, NodeWave, news, updates, insights'
+})
+
+defineOgImage('Index', {
+  title,
+  description,
+  meta: {
+    theme: 'teal',
+    layout: 'center',
+    brand: 'nodewave'
+  }
+})
+</script>
+
 <template>
   <UContainer>
     <h1 class="text-3xl font-bold mb-4">

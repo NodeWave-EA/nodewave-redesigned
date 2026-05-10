@@ -6,10 +6,16 @@ html {
   /* set fontsize to 10px for root element (10px / 16px * 100 */
   font-size: 100%;
   /* font-family: var(--font-typewriter-raw), sans-serif; */
+  font: var(--font-poppins);
   /* letter-spacing: 0.06rem; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+body {
+  font-family: var(--font-poppins);
+}
+
 /* Use Typewriter for all code/pre tags */
 code,
 pre,
@@ -32,6 +38,7 @@ h4 {
 * Custom Design System
 */
 @theme static {
+  --font-poppins: "Poppins", ui-sans-serif, system-ui, sans-serif;
   /* The "Clean" Typewriter */
   --font-typewriter-clean: "IBM Plex Mono", monospace;
   /* The "Gritty" Analog Typewriter */

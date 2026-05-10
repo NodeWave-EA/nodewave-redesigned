@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const title = 'About'
-const description = 'NodeWave aboutt page'
+const description = 'NodeWave about page'
 
 useSeoMeta({
   title,
@@ -8,7 +8,15 @@ useSeoMeta({
   keywords:
     'about, NodeWave, Nuxt 3 starter template, features, getting started'
 })
-defineOgImage('About', { title, description })
+defineOgImage('About', {
+  title,
+  description,
+  meta: {
+    theme: 'dark',
+    layout: 'center',
+    brand: 'nodewave'
+  }
+})
 
 // No imports needed! The @vueuse/motion/nuxt module handles auto-imports.
 const boxVisible = ref(true)
@@ -86,7 +94,7 @@ const boxVisible = ref(true)
         Toggle State
       </button>
 
-      <div
+      <!-- <div
         v-motion="'customBox'"
         :variants="{
           hidden: { opacity: 0.2, x: -50 },
@@ -95,7 +103,7 @@ const boxVisible = ref(true)
         :initial="'hidden'"
         :animate="boxVisible ? 'visible' : 'hidden'"
         class="w-20 h-20 bg-red-400 rounded-full"
-      />
+      /> -->
     </section>
   </div>
 </template>

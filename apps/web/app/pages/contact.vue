@@ -22,7 +22,12 @@ useSeoMeta({
 
 defineOgImage('Contact', {
   title,
-  description
+  description,
+  meta: {
+    theme: 'violet',
+    layout: 'split',
+    brand: 'nodewave'
+  }
 })
 
 const schemaOrg = {

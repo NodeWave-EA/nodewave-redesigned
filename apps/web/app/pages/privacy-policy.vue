@@ -1,3 +1,25 @@
+<script setup lang="ts">
+const title = 'Privacy Policy'
+const description
+  = 'This is a simple privacy policy for the NodeWave website. We are committed to protecting your personal information and your right to privacy.'
+
+useSeoMeta({
+  title,
+  description,
+  keywords: 'privacy policy, NodeWave, privacy, data protection'
+})
+
+defineOgImage('Index', {
+  title,
+  description,
+  meta: {
+    theme: 'dark',
+    layout: 'left',
+    brand: 'nodewave'
+  }
+})
+</script>
+
 <template>
   <UContainer>
     <h1 class="text-3xl font-bold mb-4">

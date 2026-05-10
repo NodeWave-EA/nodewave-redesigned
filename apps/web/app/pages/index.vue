@@ -1,8 +1,20 @@
 <script lang="ts" setup>
+const title = 'Home'
+const description = 'Welcome to the NodeWave Website.'
 useSeoMeta({
-  title: 'Home',
-  description:
-    'Welcome to the NodeWave Nuxt Starter Template. Build beautiful, accessible, and performant applications in minutes with Nuxt UI.'
+  title,
+  description,
+  keywords:
+    'NodeWave, Nuxt 3 starter template, features, getting started, production-ready'
+})
+defineOgImage('Index', {
+  title,
+  description,
+  meta: {
+    theme: 'teal',
+    layout: 'split',
+    brand: 'nodewave'
+  }
 })
 </script>
 

@@ -54,6 +54,11 @@ export default defineNuxtConfig({
         {
           rel: 'icon',
           type: 'image/png',
+          href: '/favicon.png'
+        },
+        {
+          rel: 'icon',
+          type: 'image/png',
           sizes: '96x96',
           href: '/favicon-96x96.png'
         },
@@ -107,6 +112,13 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2025-01-15',
 
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      routes: ['/']
+    }
+  },
+
   aos: {
     // Global settings:
     disable: false, // accepts following values: 'phone', 'tablet', 'mobile', boolean, expression or function
@@ -143,6 +155,7 @@ export default defineNuxtConfig({
       subsets: ['latin']
     },
     families: [
+      { name: 'Poppins', weights: [400, 500, 600, 700] },
       { name: 'Inter', weights: [300, 400, 500, 600, 700, 800, 900] },
       { name: 'Roboto', weights: [300, 400, 500, 700, 900] },
       { name: 'IBM Plex Sans', weights: [300, 400, 500, 600, 700] },
@@ -157,6 +170,13 @@ export default defineNuxtConfig({
 
       { name: 'Special Elite', weights: [400] }
     ]
+  },
+
+  // ── Hints ──────────────────────────────────────────────────
+  hints: {
+    features: {
+      lazyLoad: false
+    }
   },
   icon: {
     size: '1.2em',
