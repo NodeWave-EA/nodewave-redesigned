@@ -48,11 +48,16 @@ const schemaOrg = {
       ]
     },
     {
-      '@type': 'WebPage',
+      '@type': 'ContactPage',
       '@id': `${siteConfig.url}/contact#webpage`,
       'url': `${siteConfig.url}/contact`,
       'name': `Contact ${siteConfig.name}`,
       'description': `Get in touch with ${siteConfig.name} to discuss IoT, AI, web, and custom software projects.`,
+      'potentialAction': {
+        '@type': 'ScheduleAction',
+        'target': siteConfig.calendly,
+        'name': 'Schedule a Meeting'
+      },
       'isPartOf': {
         '@id': `${siteConfig.url}/#website`
       },
@@ -207,7 +212,9 @@ function validate(
   const result = schema.safeParse(state)
 
   // clear previous errors
-  Object.assign(errors, {})
+  Object.keys(errors).forEach((key) => {
+    Reflect.deleteProperty(errors, key)
+  })
 
   if (result.success) {
     return []
