@@ -30,6 +30,7 @@
     "@vueuse/motion": "3.0.3",
     "@vueuse/nuxt": "14.3.0",
     "fakeout": "^1.0.22",
+    "nodemailer": "^8.0.7",
     "nuxt": "^4.4.2",
     "nuxt-aos": "1.2.6",
     "nuxt-og-image": "6.5.0",
@@ -44,6 +45,7 @@
     "@iconify-json/line-md": "^1.2.16",
     "@nuxt/eslint": "^1.15.2",
     "@types/cloudflare-turnstile": "^0.2.2",
+    "@types/nodemailer": "^8.0.0",
     "eslint": "^10.3.0",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.2.7"
