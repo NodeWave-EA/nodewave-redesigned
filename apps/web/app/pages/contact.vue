@@ -131,14 +131,15 @@ const contactDetails: ContactDetail[] = [
     href: `mailto:${siteConfig.email}`
   },
   {
-    title: 'Typical response',
-    description: 'Within one business day.',
-    icon: 'i-lucide-clock-3'
+    title: 'Chat with us',
+    description: '+254 702 497 805',
+    icon: 'i-lucide-message-square',
+    href: 'https://wa.me/254702497805'
   },
   {
-    title: 'Discovery call',
+    title: 'Intro call',
     description: 'Start with a quick 30 minute intro call.',
-    icon: 'i-lucide-calendar-range',
+    icon: 'i-lucide-calendar-clock',
     href: siteConfig.calendly
   }
 ]
@@ -191,6 +192,11 @@ const controlUi = {
   base: 'w-full min-w-0 ps-11 pe-4 py-3 text-xl sm:text-xl sm:ps-12 sm:pe-5 sm:py-3.5 sm:text-base lg:ps-14 lg:pe-5 lg:py-4',
   leadingIcon: 'text-muted shrink-0',
   trailingIcon: 'text-muted shrink-0'
+}
+
+const selectUi = {
+  ...controlUi,
+  placeholder: 'text-default'
 }
 
 const textareaUi = {
@@ -298,9 +304,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       class="flex flex-col-reverse gap-8 lg:grid lg:grid-cols-[0.92fr_1.08fr] lg:items-start"
     >
       <section class="space-y-6 lg:sticky lg:top-8">
-        <div
-          class="rounded-4xl border border-default bg-elevated/70 p-6 shadow-sm backdrop-blur"
-        >
+        <div class="rounded-4xl border border-default p-6">
           <p
             class="text-xs font-semibold uppercase tracking-[0.28em] text-primary"
           >
@@ -311,10 +315,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             <div
               v-for="detail in contactDetails"
               :key="detail.title"
-              class="flex items-start gap-4 rounded-2xl border border-default/60 bg-default/60 p-4 transition-colors hover:border-primary/30 hover:bg-default/80"
+              class="flex items-start gap-4 rounded-2xl border border-default/60 p-4 transition-colors hover:border-primary/30"
             >
               <div
-                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-inset ring-primary/10"
+                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-primary ring-1 ring-inset ring-primary/10"
               >
                 <UIcon
                   :name="detail.icon"
@@ -355,9 +359,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         </div>
 
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-          <div
-            class="rounded-[1.75rem] border border-default bg-default/70 p-5 shadow-sm"
-          >
+          <div class="rounded-[1.75rem] border border-default p-5">
             <p class="text-sm font-medium text-default">
               Fast start
             </p>
@@ -367,9 +369,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             </p>
           </div>
 
-          <div
-            class="rounded-[1.75rem] border border-default bg-default/70 p-5 shadow-sm"
-          >
+          <div class="rounded-[1.75rem] border border-default p-5">
             <p class="text-sm font-medium text-default">
               Flexible engagement
             </p>
@@ -381,12 +381,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         </div>
       </section>
 
-      <section
-        class="overflow-hidden rounded-4xl border border-default bg-elevated/80 shadow-sm backdrop-blur"
-      >
-        <div
-          class="border-b border-default/70 bg-linear-to-br from-primary/6 via-transparent to-transparent p-4 sm:p-6"
-        >
+      <section class="overflow-hidden rounded-4xl">
+        <div class="border-b border-default/70 p-4 sm:p-6">
           <div class="flex items-start justify-between gap-4">
             <div>
               <p
@@ -394,11 +390,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
               >
                 Send a message
               </p>
-              <h1
+              <h2
                 class="mt-1 text-2xl font-semibold tracking-tight text-default sm:mt-2 sm:text-3xl"
               >
                 Tell us about your project
-              </h1>
+              </h2>
               <p
                 class="mt-2 max-w-2xl text-sm leading-6 text-muted sm:mt-3 sm:text-base"
               >
@@ -556,6 +552,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                   :ui="{ label: 'text-xl sm:text-base' }"
                 >
                   <USelectMenu
+                    id="subject"
                     v-model="state.subject"
                     name="subject"
                     :items="[...subjects]"
@@ -566,7 +563,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     size="lg"
                     :highlight="true"
                     class="w-full min-w-0"
-                    :ui="controlUi"
+                    :ui="selectUi"
                     @blur="markTouched('subject')"
                   />
                   <p
@@ -585,6 +582,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                   :ui="{ label: 'text-xl sm:text-base' }"
                 >
                   <USelectMenu
+                    id="budget"
                     v-model="state.budget"
                     name="budget"
                     :items="[...budgets]"
@@ -595,7 +593,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     size="lg"
                     :highlight="true"
                     class="w-full min-w-0"
-                    :ui="controlUi"
+                    :ui="selectUi"
                     @blur="markTouched('budget')"
                   />
                   <p
