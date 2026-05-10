@@ -5,7 +5,8 @@ html {
   scroll-behavior: smooth;
   /* set fontsize to 10px for root element (10px / 16px * 100 */
   font-size: 100%;
-  font-family: var(--font-typewriter), sans-serif;
+  /* font-family: var(--font-typewriter-raw), sans-serif; */
+  /* letter-spacing: 0.06rem; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

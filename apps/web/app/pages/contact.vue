@@ -51,7 +51,7 @@ const schemaOrg = {
       'sameAs': [
         'https://twitter.com/nodewave',
         'https://linkedin.com/company/nodewave',
-        'https://github.com/nodewave'
+        'https://github.com/nodewave-ea'
       ]
     },
     {
@@ -190,7 +190,7 @@ const state = reactive<Partial<Schema>>({
 })
 
 const controlUi = {
-  base: 'w-full min-w-0 rounded-2xl ps-11 pe-4 py-3 text-sm sm:ps-12 sm:pe-5 sm:py-3.5 sm:text-base lg:ps-14 lg:pe-5 lg:py-4',
+  base: 'w-full min-w-0 ps-11 pe-4 py-3 text-xl sm:ps-12 sm:pe-5 sm:py-3.5 sm:text-base lg:ps-14 lg:pe-5 lg:py-4',
   leadingIcon: 'text-muted shrink-0',
   trailingIcon: 'text-muted shrink-0'
 }
@@ -276,7 +276,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-  <UContainer class="py-8 sm:py-10 lg:py-12 px-0">
+  <UContainer class="py-1 sm:py-10 lg:py-12 px-0">
     <UPageHero
       headline="Get in touch"
       title="Let's build something Amazing together"
@@ -428,7 +428,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 Your details
               </p>
 
-              <div class="mt-4 grid grid-cols-2 gap-4 sm:gap-5">
+              <div class="mt-4 grid grid-cols-1 gap-4 sm:gap-5">
                 <UFormField
                   name="firstName"
                   label="First name"
@@ -443,7 +443,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     color="neutral"
                     variant="soft"
                     size="lg"
-                    :highlight="false"
+                    :highlight="true"
                     class="w-full min-w-0"
                     :ui="controlUi"
                     @blur="markTouched('firstName')"
@@ -470,7 +470,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     color="neutral"
                     variant="soft"
                     size="lg"
-                    :highlight="false"
+                    :highlight="true"
                     class="w-full min-w-0"
                     :ui="controlUi"
                     @blur="markTouched('lastName')"
@@ -498,7 +498,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     color="neutral"
                     variant="soft"
                     size="lg"
-                    :highlight="false"
+                    :highlight="true"
                     class="w-full min-w-0"
                     :ui="controlUi"
                     @blur="markTouched('email')"
@@ -525,7 +525,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     color="neutral"
                     variant="soft"
                     size="lg"
-                    :highlight="false"
+                    :highlight="true"
                     class="w-full min-w-0"
                     :ui="controlUi"
                     @blur="markTouched('phone')"
@@ -547,7 +547,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 Project details
               </p>
 
-              <div class="mt-4 grid grid-cols-2 gap-4 sm:gap-5">
+              <div class="mt-4 grid grid-cols-1 gap-4 sm:gap-5">
                 <UFormField
                   name="subject"
                   label="Subject"
@@ -563,7 +563,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     color="neutral"
                     variant="soft"
                     size="lg"
-                    :highlight="false"
+                    :highlight="true"
                     class="w-full min-w-0"
                     :ui="controlUi"
                     @blur="markTouched('subject')"
@@ -591,7 +591,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     color="neutral"
                     variant="soft"
                     size="lg"
-                    :highlight="false"
+                    :highlight="true"
                     class="w-full min-w-0"
                     :ui="controlUi"
                     @blur="markTouched('budget')"
@@ -624,7 +624,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
               color="neutral"
               variant="soft"
               size="lg"
-              :highlight="false"
+              :highlight="true"
               class="w-full min-h-40 sm:min-h-48 lg:min-h-56"
               :ui="textareaUi"
               @blur="markTouched('message')"
@@ -640,17 +640,17 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <div
             class="mt-6 flex flex-col gap-4 border-t border-default/70 pt-6 sm:flex-row sm:items-center sm:justify-between"
           >
-            <p class="text-sm text-muted">
-              We typically reply within one business day.
-            </p>
-
             <UButton
               type="submit"
-              size="lg"
+              size="xl"
               trailing-icon="i-lucide-arrow-right"
             >
               Send message
             </UButton>
+
+            <p class="text-sm text-muted">
+              We typically reply within one business day.
+            </p>
           </div>
         </UForm>
       </section>
