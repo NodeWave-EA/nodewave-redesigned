@@ -446,7 +446,7 @@ function formatFieldLabel(name: string): string {
                   <UInput
                     v-model="state.firstName"
                     name="firstName"
-                    icon="i-lucide-user"
+                    icon="i-line-md-account"
                     placeholder="John"
                     color="neutral"
                     variant="soft"
@@ -488,7 +488,7 @@ function formatFieldLabel(name: string): string {
                   <UInput
                     v-model="state.email"
                     name="email"
-                    icon="i-lucide-mail"
+                    icon="i-line-md-email"
                     type="email"
                     placeholder="john.doe@example.com"
                     color="neutral"
@@ -509,7 +509,7 @@ function formatFieldLabel(name: string): string {
                   <UInput
                     v-model="state.phone"
                     name="phone"
-                    icon="i-lucide-phone"
+                    icon="i-line-md-phone"
                     type="tel"
                     placeholder="+1 555 123 4567"
                     color="neutral"
