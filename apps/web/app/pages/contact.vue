@@ -5,7 +5,7 @@ import type { Link } from '~/types'
 import { siteConfig } from '~/app.meta'
 
 useSeoMeta({
-  title: `Contact - ${siteConfig.name}`,
+  title: 'Contact',
   description: `Get in touch with ${siteConfig.name} to discuss IoT, AI, web, and custom software projects. ${siteConfig.description}`,
   keywords:
     'contact, IoT solutions, AI development, custom software, web development',
@@ -190,13 +190,13 @@ const state = reactive<Partial<Schema>>({
 })
 
 const controlUi = {
-  base: 'w-full min-w-0 ps-11 pe-4 py-3 text-xl sm:ps-12 sm:pe-5 sm:py-3.5 sm:text-base lg:ps-14 lg:pe-5 lg:py-4',
+  base: 'w-full min-w-0 ps-11 pe-4 py-3 text-xl sm:text-xl sm:ps-12 sm:pe-5 sm:py-3.5 sm:text-base lg:ps-14 lg:pe-5 lg:py-4',
   leadingIcon: 'text-muted shrink-0',
   trailingIcon: 'text-muted shrink-0'
 }
 
 const textareaUi = {
-  base: 'w-full min-w-0 rounded-2xl ps-11 pe-4 py-3 text-sm min-h-40 sm:ps-12 sm:pe-5 sm:min-h-48 sm:py-3.5 sm:text-base lg:ps-14 lg:pe-5 lg:min-h-56 lg:py-4',
+  base: 'w-full min-w-0 text-sm min-h-40 sm:min-h-48 sm:text-base lg:min-h-56',
   leadingIcon: 'text-muted shrink-0',
   trailingIcon: 'text-muted shrink-0'
 }
@@ -276,7 +276,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-  <UContainer class="py-1 sm:py-10 lg:py-12 px-0">
+  <UContainer class="py-0 px-0">
     <UPageHero
       headline="Get in touch"
       title="Let's build something Amazing together"
@@ -286,15 +286,17 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         headline:
           'uppercase tracking-[0.28em] text-xs font-semibold text-primary text-center',
         title:
-          'max-w-3xl text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-center mx-auto',
+          'hidden max-w-3xl text-3xl font-semibold tracking-tight text-center mx-auto sm:block sm:text-4xl lg:text-5xl',
         description:
-          'max-w-2xl text-sm sm:text-base text-muted text-center mx-auto',
-        links: 'mt-6 justify-center'
+          'hidden max-w-2xl text-sm text-muted text-center mx-auto sm:block sm:text-base',
+        links: 'hidden mt-6 justify-center sm:flex'
       }"
-      class="mx-auto"
+      class="hidden mx-auto sm:my-0 sm:block"
     />
 
-    <div class="mt-10 grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
+    <div
+      class="flex flex-col-reverse gap-8 lg:grid lg:grid-cols-[0.92fr_1.08fr] lg:items-start"
+    >
       <section class="space-y-6 lg:sticky lg:top-8">
         <div
           class="rounded-4xl border border-default bg-elevated/70 p-6 shadow-sm backdrop-blur"
@@ -383,7 +385,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         class="overflow-hidden rounded-4xl border border-default bg-elevated/80 shadow-sm backdrop-blur"
       >
         <div
-          class="border-b border-default/70 bg-linear-to-br from-primary/6 via-transparent to-transparent p-6 sm:p-8"
+          class="border-b border-default/70 bg-linear-to-br from-primary/6 via-transparent to-transparent p-4 sm:p-6"
         >
           <div class="flex items-start justify-between gap-4">
             <div>
@@ -393,28 +395,22 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 Send a message
               </p>
               <h1
-                class="mt-2 text-2xl font-semibold tracking-tight text-default sm:text-3xl"
+                class="mt-1 text-2xl font-semibold tracking-tight text-default sm:mt-2 sm:text-3xl"
               >
                 Tell us about your project
               </h1>
               <p
-                class="mt-3 max-w-2xl text-sm leading-6 text-muted sm:text-base"
+                class="mt-2 max-w-2xl text-sm leading-6 text-muted sm:mt-3 sm:text-base"
               >
                 We'll use the details below to route your request to the right
                 person and come back with next steps.
               </p>
             </div>
-
-            <UIcon
-              name="i-lucide-message-square-more"
-              class="h-9 w-9 text-primary/60"
-              aria-hidden="true"
-            />
           </div>
         </div>
 
         <UForm
-          class="p-6 sm:p-8"
+          class="p-4 sm:p-6"
           aria-label="Contact us form"
           :state="state"
           :validate="validate"
@@ -428,10 +424,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 Your details
               </p>
 
-              <div class="mt-4 grid grid-cols-1 gap-4 sm:gap-5">
+              <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                 <UFormField
                   name="firstName"
                   label="First name"
+                  :ui="{ label: 'text-xl sm:text-base' }"
                   required
                   class="w-full min-w-0"
                 >
@@ -461,6 +458,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                   label="Last name"
                   required
                   class="w-full min-w-0"
+                  :ui="{ label: 'text-xl sm:text-base' }"
                 >
                   <UInput
                     v-model="state.lastName"
@@ -488,6 +486,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                   label="Email"
                   required
                   class="w-full min-w-0"
+                  :ui="{ label: 'text-xl sm:text-base' }"
                 >
                   <UInput
                     v-model="state.email"
@@ -515,6 +514,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                   name="phone"
                   label="Phone"
                   class="w-full min-w-0"
+                  :ui="{ label: 'text-xl sm:text-base' }"
                 >
                   <UInput
                     v-model="state.phone"
@@ -547,12 +547,13 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 Project details
               </p>
 
-              <div class="mt-4 grid grid-cols-1 gap-4 sm:gap-5">
+              <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                 <UFormField
                   name="subject"
                   label="Subject"
                   required
                   class="w-full min-w-0"
+                  :ui="{ label: 'text-xl sm:text-base' }"
                 >
                   <USelectMenu
                     v-model="state.subject"
@@ -581,6 +582,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                   label="Budget"
                   required
                   class="w-full min-w-0"
+                  :ui="{ label: 'text-xl sm:text-base' }"
                 >
                   <USelectMenu
                     v-model="state.budget"
@@ -612,11 +614,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             label="Message"
             required
             class="mt-6 w-full"
+            :ui="{ label: 'text-xl sm:text-base' }"
           >
             <UTextarea
               v-model="state.message"
               name="message"
-              icon="i-lucide-message-square-text"
               :rows="6"
               autoresize
               :maxrows="10"
@@ -642,7 +644,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           >
             <UButton
               type="submit"
-              size="xl"
+              size="lg"
               trailing-icon="i-lucide-arrow-right"
             >
               Send message
