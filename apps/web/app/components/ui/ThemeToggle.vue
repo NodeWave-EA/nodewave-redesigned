@@ -43,7 +43,7 @@ const elementKeyHandler = createElementKeyHandler(startViewTransition, [
       <UButton
         role="button"
         :aria-label="`Switch to ${newTheme} mode`"
-        :icon="`i-lucide-${currentIcon}`"
+        :icon="currentIcon"
         color="neutral"
         variant="ghost"
         size="md"
@@ -56,7 +56,7 @@ const elementKeyHandler = createElementKeyHandler(startViewTransition, [
         <UButton
           role="button"
           :aria-label="`Switch to ${newTheme} mode`"
-          :icon="`i-lucide-${currentIcon}`"
+          :icon="currentIcon"
           color="neutral"
           variant="ghost"
           size="md"

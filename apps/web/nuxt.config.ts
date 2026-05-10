@@ -25,7 +25,8 @@ export default defineNuxtConfig({
           chromium: ['/usr/bin/chromium']
         }
       }
-    ]
+    ],
+    '@nuxtjs/turnstile'
   ],
 
   devtools: {
@@ -87,7 +88,12 @@ export default defineNuxtConfig({
   },
 
   appConfig: {},
-  runtimeConfig: {},
+
+  runtimeConfig: {
+    turnstile: {
+      secretKey: process.env.NUXT_TURNSTILE_SECRET_KEY
+    }
+  },
 
   routeRules: {
     '/': { prerender: true },
@@ -200,5 +206,9 @@ export default defineNuxtConfig({
       },
       { label: 'Last Modified', select: 'sitemap:lastmod', width: '20%' }
     ]
+  },
+
+  turnstile: {
+    siteKey: process.env.NUXT_PUBLIC_TURNSTILE_SITE_KEY
   }
 })

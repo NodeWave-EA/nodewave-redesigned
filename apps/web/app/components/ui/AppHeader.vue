@@ -31,7 +31,7 @@
           variant="ghost"
           to="https://github.com/nodewave-ea"
           target="_blank"
-          icon="i-simple-icons-github"
+          icon="i-line-md-github-loop"
           aria-label="Open GitHub repository"
         />
       </UTooltip>

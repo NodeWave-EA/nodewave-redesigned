@@ -19,7 +19,9 @@ export function useTheme() {
     colorMode.value === 'dark' ? 'light' : 'dark'
   )
   const currentIcon = computed(() =>
-    colorMode.value === 'dark' ? 'sun' : 'moon'
+    colorMode.value === 'dark'
+      ? 'i-line-md-sunny-filled-loop'
+      : 'i-line-md-moon-filled-loop'
   )
 
   const toggleTheme = () => {

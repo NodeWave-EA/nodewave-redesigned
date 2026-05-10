@@ -4,16 +4,16 @@ export const socialLinks: Link[] = [
   {
     label: 'GitHub',
     to: 'https://github.com/Nodewave-EA',
-    icon: 'i-lucide-github'
+    icon: 'i-line-md-github-loop'
   },
   {
     label: 'Twitter',
     to: 'https://twitter.com/Nodewave_EA',
-    icon: 'i-lucide-twitter'
+    icon: 'i-line-md-twitter'
   },
   {
     label: 'LinkedIn',
     to: 'https://www.linkedin.com/company/nodewave-ea/',
-    icon: 'i-lucide-linkedin'
+    icon: 'i-line-md-linkedin'
   }
 ]

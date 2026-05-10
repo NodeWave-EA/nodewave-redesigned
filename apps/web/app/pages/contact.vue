@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import * as z from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
 import type { Link } from '~/types'
 import { siteConfig } from '~/app.meta'
+import { ContactSchema } from '#shared/schemas'
+import { budgets, subjects } from '#shared/types'
+import { useContact } from '~/composables/useContact'
+import type { ContactFormData as Schema } from '~~/shared/schemas'
+import type { ContactFieldError } from '#shared/types'
 
 const title = 'Contact'
 const description = `Get in touch with ${siteConfig.name} to discuss IoT, AI, web, and custom software projects. ${siteConfig.description}`
+
+const { loading, sendContactMessage } = useContact()
 
 useSeoMeta({
   title,
@@ -99,6 +105,8 @@ useHead({
 })
 
 const toast = useToast()
+const contactForm = useTemplateRef('contactForm')
+const turnstile = ref<{ reset: () => void } | null>(null)
 
 const links = ref<Link[]>([
   {
@@ -127,56 +135,28 @@ const contactDetails: ContactDetail[] = [
   {
     title: 'Email',
     description: siteConfig.email,
-    icon: 'i-lucide-mail',
+    icon: 'i-line-md-email-multiple',
     href: `mailto:${siteConfig.email}`
   },
   {
     title: 'Chat with us',
-    description: '+254 702 497 805',
-    icon: 'i-lucide-message-square',
-    href: 'https://wa.me/254702497805'
+    description: '+254 705 598 248',
+    icon: 'i-line-md-chat-round-dots',
+    href: 'https://wa.me/254705598248'
+  },
+  {
+    title: 'Call us',
+    description: '+254 705 598 248',
+    icon: 'i-line-md-phone-call-loop',
+    href: 'tel:+254705598248'
   },
   {
     title: 'Intro call',
     description: 'Start with a quick 30 minute intro call.',
-    icon: 'i-lucide-calendar-clock',
+    icon: 'i-line-md-calendar',
     href: siteConfig.calendly
   }
 ]
-
-const budgets = [
-  'under 10k',
-  '10k-50k',
-  '50k-100k',
-  '>100k',
-  'Not sure yet',
-  'Other'
-] as const
-const subjects = [
-  'General Inquiry',
-  'Technical Support',
-  'Partner Relations',
-  'IoT Solutions',
-  'Integration Inquiry',
-  'Custom Software Development',
-  'Web Development',
-  'Other'
-] as const
-
-const schema = z.object({
-  firstName: z.string().trim().min(2, 'First name is required'),
-  lastName: z.string().trim().min(2, 'Last name is required'),
-  email: z.string().trim().email('Invalid email address'),
-  phone: z.string().trim().optional(),
-  subject: z.enum(subjects),
-  budget: z.enum(budgets),
-  message: z
-    .string()
-    .trim()
-    .min(10, 'Message must be at least 10 characters long')
-})
-
-type Schema = z.output<typeof schema>
 
 const state = reactive<Partial<Schema>>({
   firstName: '',
@@ -185,11 +165,12 @@ const state = reactive<Partial<Schema>>({
   phone: '',
   subject: undefined,
   budget: undefined,
-  message: ''
+  message: '',
+  token: ''
 })
 
 const controlUi = {
-  base: 'w-full min-w-0 ps-11 pe-4 py-3 text-xl sm:text-xl sm:ps-12 sm:pe-5 sm:py-3.5 sm:text-base lg:ps-14 lg:pe-5 lg:py-4',
+  base: 'w-full min-w-0 ps-11 pe-4 py-3 text-lg sm:text-lg sm:ps-12 sm:pe-5 sm:py-3.5 sm:text-base lg:ps-14 lg:pe-5 lg:py-4',
   leadingIcon: 'text-muted shrink-0',
   trailingIcon: 'text-muted shrink-0'
 }
@@ -200,84 +181,107 @@ const selectUi = {
 }
 
 const textareaUi = {
-  base: 'w-full min-w-0 text-sm min-h-40 sm:min-h-48 sm:text-base lg:min-h-56',
+  base: 'w-full min-w-0 text-base min-h-80 sm:min-h-48 sm:text-base lg:min-h-56',
   leadingIcon: 'text-muted shrink-0',
   trailingIcon: 'text-muted shrink-0'
 }
 
-// Inline validation state
-const errors = reactive<Record<string, string>>({})
-const touched = reactive<Record<string, boolean>>({})
-const submitted = ref(false)
-
-let _validateTimer: ReturnType<typeof setTimeout> | null = null
-
-function validate(
-  state: Partial<Schema>
-): { field: string, message: string }[] {
-  const result = schema.safeParse(state)
-
-  // clear previous errors
-  Object.keys(errors).forEach((key) => {
-    Reflect.deleteProperty(errors, key)
-  })
-
-  if (result.success) {
-    return []
-  }
-
-  result.error.issues.forEach((issue) => {
-    const field = String(issue.path[0] ?? '')
-    errors[field] = issue.message
-  })
-
-  return result.error.issues.map(issue => ({
-    field: String(issue.path[0] ?? ''),
-    message: issue.message
-  }))
-}
-
-function showError(name: string) {
-  return !!errors[name] && (touched[name] || submitted.value)
-}
-
-function markTouched(name: string) {
-  touched[name] = true
-}
-
-watch(
-  () => state,
-  () => {
-    if (_validateTimer) clearTimeout(_validateTimer)
-    _validateTimer = setTimeout(() => validate(state), 350)
-  },
-  { deep: true }
-)
-
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  // mark submission attempt so errors become visible
-  submitted.value = true
+  event.preventDefault()
 
-  // final validation before submit
-  const issues = validate(state)
+  contactForm.value?.clear()
 
-  if (issues.length > 0) {
-    // focus first invalid field if possible
-    const first = issues[0]!
-    const el = document.querySelector(
-      `[name="${first.field}"]`
-    ) as HTMLElement | null
-    el?.focus()
-    return
+  try {
+    await sendContactMessage(event.data)
+
+    Object.keys(state).forEach((key) => {
+      Reflect.set(
+        state,
+        key,
+        key === 'subject' || key === 'budget' ? undefined : ''
+      )
+    })
+    toast.add({
+      title: 'Message sent',
+      description:
+        'Thank you for reaching out! Your message has been sent successfully.',
+      icon: 'i-line-md-email-check-filled',
+      color: 'success'
+    })
+    toast.add({
+      title: 'Next steps',
+      icon: 'i-line-md-text-box-multiple',
+      description:
+        'While you wait for our response, feel free to explore our blog for insights on IoT, AI, and software development.',
+      color: 'primary',
+      actions: [
+        {
+          label: 'Read our blog',
+          to: '/blog',
+          target: '_blank'
+        }
+      ]
+    })
+  } catch (error) {
+    const validationErrors = extractValidationErrors(error)
+
+    if (validationErrors.length > 0) {
+      contactForm.value?.setErrors(validationErrors)
+      toast.add({
+        title: 'Check the highlighted fields',
+        description:
+          'Please correct the validation errors and submit the form again.',
+        icon: 'i-lucide-alert-triangle',
+        color: 'warning'
+      })
+      return
+    }
+
+    console.error('Failed to send contact message:', error)
+    toast.add({
+      title: 'Error',
+      description:
+        'Something went wrong while sending your message. Please try again later or contact us directly via email or phone.',
+      icon: 'i-line-md-close-circle-filled',
+      color: 'error',
+      actions: [
+        {
+          label: 'Email us',
+          to: `mailto:${siteConfig.email}`,
+          icon: 'i-line-md-email-multiple',
+          target: '_blank'
+        },
+        {
+          label: 'Chat with us',
+          to: 'https://wa.me/254705598248',
+          icon: 'i-line-md-chat-round-dots',
+          target: '_blank'
+        }
+      ]
+    })
+  } finally {
+    state.token = ''
+    turnstile.value?.reset()
+  }
+}
+
+function extractValidationErrors(error: unknown): ContactFieldError[] {
+  const candidate = error as {
+    data?: {
+      errors?: ContactFieldError[]
+      data?: {
+        errors?: ContactFieldError[]
+      }
+    }
   }
 
-  toast.add({
-    title: 'Message sent',
-    description: 'Thanks for reaching out. We will get back to you soon.',
-    color: 'success'
-  })
+  const errors = candidate.data?.errors ?? candidate.data?.data?.errors ?? []
 
-  console.log(event.data)
+  return Array.isArray(errors)
+    ? errors.filter((entry): entry is ContactFieldError =>
+        Boolean(entry?.name && entry?.message)
+      )
+    : []
 }
 </script>
 
@@ -285,17 +289,17 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   <UContainer class="py-0 px-0">
     <UPageHero
       headline="Get in touch"
-      title="Let's build something Amazing together"
+      title="Let's Build Something Amazing Together"
       description="Tell us what you are building, where you are stuck, or what you want to launch next. We work across IoT, AI, integrations, and custom software."
       :links="links"
       :ui="{
         headline:
           'uppercase tracking-[0.28em] text-xs font-semibold text-primary text-center',
         title:
-          'hidden max-w-3xl text-3xl font-semibold tracking-tight text-center mx-auto sm:block sm:text-4xl lg:text-5xl',
+          'max-w-3xl text-3xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-center mx-auto sm:block lg:text-4xl',
         description:
-          'hidden max-w-2xl text-sm text-muted text-center mx-auto sm:block sm:text-base',
-        links: 'hidden mt-6 justify-center sm:flex'
+          'max-w-2xl text-sm text-muted text-center mx-auto sm:block sm:text-base',
+        links: 'mt-6 justify-center sm:flex'
       }"
       class="hidden mx-auto sm:my-0 sm:block"
     />
@@ -304,9 +308,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       class="flex flex-col-reverse gap-8 lg:grid lg:grid-cols-[0.92fr_1.08fr] lg:items-start"
     >
       <section class="space-y-6 lg:sticky lg:top-8">
-        <div class="rounded-4xl border border-default p-6">
+        <div class="p-4">
           <p
-            class="text-xs font-semibold uppercase tracking-[0.28em] text-primary"
+            class="text-[14px] font-semibold uppercase tracking-[0.28em] text-primary mb-8"
           >
             Contact options
           </p>
@@ -315,7 +319,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             <div
               v-for="detail in contactDetails"
               :key="detail.title"
-              class="flex items-start gap-4 rounded-2xl border border-default/60 p-4 transition-colors hover:border-primary/30"
+              class="flex items-start gap-4 border-b border-default/60 transition-colors hover:border-primary/30"
             >
               <div
                 class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-primary ring-1 ring-inset ring-primary/10"
@@ -327,7 +331,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
               </div>
 
               <div class="min-w-0 flex-1">
-                <p class="text-sm font-medium text-default">
+                <p class="text-base font-medium text-default">
                   {{ detail.title }}
                 </p>
 
@@ -342,41 +346,19 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                       ? 'noopener noreferrer'
                       : undefined
                   "
-                  class="mt-1 block text-sm text-muted transition-colors hover:text-primary"
+                  class="mt-1 block text-base text-muted transition-colors hover:text-primary"
                 >
                   {{ detail.description }}
                 </a>
 
                 <p
                   v-else
-                  class="mt-1 text-sm text-muted"
+                  class="mt-1 text-base text-muted"
                 >
                   {{ detail.description }}
                 </p>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-          <div class="rounded-[1.75rem] border border-default p-5">
-            <p class="text-sm font-medium text-default">
-              Fast start
-            </p>
-            <p class="mt-2 text-sm text-muted">
-              Share the scope, timeline, and what success looks like. We will
-              respond with the next best step.
-            </p>
-          </div>
-
-          <div class="rounded-[1.75rem] border border-default p-5">
-            <p class="text-sm font-medium text-default">
-              Flexible engagement
-            </p>
-            <p class="mt-2 text-sm text-muted">
-              From quick fixes to end-to-end builds, we can support projects at
-              different stages.
-            </p>
           </div>
         </div>
       </section>
@@ -386,30 +368,31 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <div class="flex items-start justify-between gap-4">
             <div>
               <p
-                class="text-xs font-semibold uppercase tracking-[0.28em] text-primary"
+                class="text-[14px] font-semibold uppercase tracking-[0.28em] text-primary"
               >
                 Send a message
               </p>
               <h2
                 class="mt-1 text-2xl font-semibold tracking-tight text-default sm:mt-2 sm:text-3xl"
               >
-                Tell us about your project
+                Tell us about your project / inquiry
               </h2>
               <p
                 class="mt-2 max-w-2xl text-sm leading-6 text-muted sm:mt-3 sm:text-base"
               >
                 We'll use the details below to route your request to the right
-                person and come back with next steps.
+                person and get back to you.
               </p>
             </div>
           </div>
         </div>
 
         <UForm
+          ref="contactForm"
           class="p-4 sm:p-6"
           aria-label="Contact us form"
           :state="state"
-          :validate="validate"
+          :schema="ContactSchema"
           @submit="onSubmit"
         >
           <div class="space-y-6">
@@ -439,14 +422,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     :highlight="true"
                     class="w-full min-w-0"
                     :ui="controlUi"
-                    @blur="markTouched('firstName')"
                   />
-                  <p
-                    v-if="showError('firstName')"
-                    class="mt-2 text-xs text-red-500"
-                  >
-                    {{ errors.firstName }}
-                  </p>
                 </UFormField>
 
                 <UFormField
@@ -467,14 +443,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     :highlight="true"
                     class="w-full min-w-0"
                     :ui="controlUi"
-                    @blur="markTouched('lastName')"
                   />
-                  <p
-                    v-if="showError('lastName')"
-                    class="mt-2 text-xs text-red-500"
-                  >
-                    {{ errors.lastName }}
-                  </p>
                 </UFormField>
 
                 <UFormField
@@ -496,14 +465,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     :highlight="true"
                     class="w-full min-w-0"
                     :ui="controlUi"
-                    @blur="markTouched('email')"
                   />
-                  <p
-                    v-if="showError('email')"
-                    class="mt-2 text-xs text-red-500"
-                  >
-                    {{ errors.email }}
-                  </p>
                 </UFormField>
 
                 <UFormField
@@ -524,14 +486,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     :highlight="true"
                     class="w-full min-w-0"
                     :ui="controlUi"
-                    @blur="markTouched('phone')"
                   />
-                  <p
-                    v-if="showError('phone')"
-                    class="mt-2 text-xs text-red-500"
-                  >
-                    {{ errors.phone }}
-                  </p>
                 </UFormField>
               </div>
             </div>
@@ -564,14 +519,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     :highlight="true"
                     class="w-full min-w-0"
                     :ui="selectUi"
-                    @blur="markTouched('subject')"
                   />
-                  <p
-                    v-if="showError('subject')"
-                    class="mt-2 text-xs text-red-500"
-                  >
-                    {{ errors.subject }}
-                  </p>
                 </UFormField>
 
                 <UFormField
@@ -594,14 +542,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     :highlight="true"
                     class="w-full min-w-0"
                     :ui="selectUi"
-                    @blur="markTouched('budget')"
                   />
-                  <p
-                    v-if="showError('budget')"
-                    class="mt-2 text-xs text-red-500"
-                  >
-                    {{ errors.budget }}
-                  </p>
                 </UFormField>
               </div>
             </div>
@@ -620,21 +561,28 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
               :rows="6"
               autoresize
               :maxrows="10"
-              placeholder="Share a little about the project, timelines, and what you need help with."
+              placeholder="Share a little about your project, timelines, product inquiry and what you need help with."
               color="neutral"
               variant="soft"
               size="lg"
               :highlight="true"
-              class="w-full min-h-40 sm:min-h-48 lg:min-h-56"
+              class="w-full min-h-50 sm:min-h-48 lg:min-h-56"
               :ui="textareaUi"
-              @blur="markTouched('message')"
             />
-            <p
-              v-if="showError('message')"
-              class="mt-2 text-xs text-red-500"
-            >
-              {{ errors.message }}
-            </p>
+          </UFormField>
+
+          <UFormField
+            name="token"
+            label="Verification"
+            required
+            class="mt-6 w-full"
+            help="Please confirm you are human before sending your message."
+            :ui="{ label: 'text-xl sm:text-base' }"
+          >
+            <NuxtTurnstile
+              ref="turnstile"
+              v-model="state.token"
+            />
           </UFormField>
 
           <div
@@ -643,12 +591,17 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             <UButton
               type="submit"
               size="lg"
-              trailing-icon="i-lucide-arrow-right"
-            >
-              Send message
-            </UButton>
+              :loading="loading"
+              :trailing-icon="loading ? '' : 'i-lucide-send'"
+              :ui="{
+                base: 'w-full py-4 justify-center sm:w-auto text-lg sm:text-base md:text-sm',
+                trailingIcon:
+                  'transition-transform group-data-[state=open]:rotate-90'
+              }"
+              :label="loading ? 'Sending...' : 'Send Message'"
+            />
 
-            <p class="text-sm text-muted">
+            <p class="text-sm text-muted text-center sm:text-left">
               We typically reply within one business day.
             </p>
           </div>
