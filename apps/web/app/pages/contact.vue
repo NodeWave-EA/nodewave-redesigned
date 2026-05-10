@@ -58,7 +58,7 @@ const schemaOrg = {
       },
       'primaryImageOfPage': {
         '@type': 'ImageObject',
-        'url': siteConfig.ogImage,
+        'url': siteConfig.logo,
         'width': 1200,
         'height': 630
       }
