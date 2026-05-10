@@ -229,19 +229,19 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       contactForm.value?.setErrors(validationErrors)
       toast.add({
         title: 'Check the highlighted fields',
-        description:
-          'Please correct the validation errors and submit the form again.',
+        description: formatValidationErrorSummary(validationErrors),
         icon: 'i-lucide-alert-triangle',
         color: 'warning'
       })
       return
     }
 
+    const errorMessage = extractErrorMessage(error)
+
     console.error('Failed to send contact message:', error)
     toast.add({
       title: 'Error',
-      description:
-        'Something went wrong while sending your message. Please try again later or contact us directly via email or phone.',
+      description: errorMessage,
       icon: 'i-line-md-close-circle-filled',
       color: 'error',
       actions: [
@@ -282,6 +282,38 @@ function extractValidationErrors(error: unknown): ContactFieldError[] {
         Boolean(entry?.name && entry?.message)
       )
     : []
+}
+
+function formatValidationErrorSummary(errors: ContactFieldError[]): string {
+  return errors
+    .map(({ name, message }) => `${formatFieldLabel(name)}: ${message}`)
+    .join(' ')
+}
+
+function extractErrorMessage(error: unknown): string {
+  const candidate = error as {
+    data?: {
+      message?: string
+      data?: {
+        message?: string
+      }
+    }
+    message?: string
+  }
+
+  return (
+    candidate.data?.message
+    ?? candidate.data?.data?.message
+    ?? candidate.message
+    ?? 'Something went wrong while sending your message. Please try again later or contact us directly via email or phone.'
+  )
+}
+
+function formatFieldLabel(name: string): string {
+  return name
+    .split('.')
+    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ')
 }
 </script>
 

@@ -1,3 +1,4 @@
+import { resolveMx } from 'node:dns/promises'
 import type { ContactFieldError, ContactResponseSuccess } from '#shared/types'
 import { ContactSchema } from '#shared/schemas'
 
@@ -46,6 +47,26 @@ export default defineEventHandler(async (event) => {
     })
   }
 
+  const emailDomain = email.split('@').at(-1)?.trim().toLowerCase()
+  const hasMailExchange = await resolveMxRecords(emailDomain)
+
+  if (!hasMailExchange) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Validation Error',
+      data: {
+        success: false,
+        message: 'Please use an email address that can receive mail.',
+        errors: [
+          {
+            name: 'email',
+            message: 'Please use an email address that can receive mail.'
+          }
+        ]
+      }
+    })
+  }
+
   // Log the validated data
   console.table({ firstName, lastName, email, phone, subject, message })
 
@@ -77,3 +98,16 @@ export default defineEventHandler(async (event) => {
     })
   }
 })
+
+async function resolveMxRecords(domain: string | undefined): Promise<boolean> {
+  if (!domain) {
+    return false
+  }
+
+  try {
+    const mxRecords = await resolveMx(domain)
+    return mxRecords.length > 0
+  } catch {
+    return false
+  }
+}
