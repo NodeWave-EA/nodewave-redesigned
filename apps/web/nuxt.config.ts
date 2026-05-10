@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     'nuxt-aos',
     '@vueuse/nuxt',
-    '@vueuse/motion',
+    '@vueuse/motion/nuxt',
     '@nuxtjs/seo',
     '@nuxt/a11y',
     '@nuxt/scripts',

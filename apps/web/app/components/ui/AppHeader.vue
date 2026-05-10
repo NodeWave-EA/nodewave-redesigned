@@ -1,49 +1,43 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { navLinks } from '~/utils/navLinks'
+
+const { headerClass, containerClass } = useFloatingHeader()
+</script>
 
 <template>
   <UHeader
     mode="slideover"
-    class="group"
+    :class="headerClass"
     :ui="{
-      root: 'mx-2 pt-4 bg-transparent border-none backdrop-blur-none',
-      container:
-        'max-w-(--ui-container) rounded-xl border border-default bg-default/50 backdrop-blur-lg transition-all duration-200 ease-out group-data-[scroll=true]:shadow-xl'
+      root: 'bg-transparent border-0 ring-0',
+      container: containerClass,
+      left: 'flex items-center',
+      center: 'hidden md:flex',
+      right: 'flex items-center gap-2',
+      body: 'border-0'
     }"
   >
-    <!-- Logo / Title -->
+    <!-- Logo -->
     <template #title>
       <UiAppLogo />
     </template>
 
-    <!-- Desktop navigation -->
-    <UNavigationMenu :items="navLinks" />
+    <!-- Desktop Navigation -->
+    <UNavigationMenu
+      :items="navLinks"
+      class="hidden md:flex"
+    />
 
-    <!-- Right actions -->
+    <!-- Right Actions -->
     <template #right>
-      <UiThemeToggle />
-
-      <UTooltip
-        text="Open on GitHub"
-        :kbds="['meta', 'G']"
-      >
-        <UButton
-          color="neutral"
-          variant="ghost"
-          to="https://github.com/nodewave-ea"
-          target="_blank"
-          icon="i-line-md-github-loop"
-          aria-label="Open GitHub repository"
-        />
-      </UTooltip>
+      <div class="flex items-center gap-2">
+        <UiAppHeaderActions />
+      </div>
     </template>
 
-    <!-- Mobile menu -->
+    <!-- Mobile Navigation -->
     <template #body>
-      <UNavigationMenu
-        :items="navLinks"
-        orientation="vertical"
-        class="-mx-2.5"
-      />
+      <UiAppHeaderMobile />
     </template>
   </UHeader>
 </template>
