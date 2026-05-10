@@ -1,5 +1,14 @@
 <script setup lang="ts">
-defineOgImage('About', { title: 'Hello' })
+const title = 'About'
+const description = 'NodeWave aboutt page'
+
+useSeoMeta({
+  title,
+  description,
+  keywords:
+    'about, NodeWave, Nuxt 3 starter template, features, getting started'
+})
+defineOgImage('About', { title, description })
 </script>
 
 <template>

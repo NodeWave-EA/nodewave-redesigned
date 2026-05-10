@@ -1,56 +1,52 @@
+<script setup lang="ts">
+const { title, description } = defineProps<{
+  title: string
+  description: string
+}>()
+</script>
+
 <template>
   <div
-    class="w-full h-full flex flex-col items-center justify-center bg-linear-to-br from-teal-900 via-slate-900 to-slate-950 p-12"
+    class="w-full h-full flex flex-col bg-white text-neutral-900 relative overflow-hidden"
   >
-    <div class="absolute inset-0 overflow-hidden pointer-events-none">
-      <div
-        class="absolute top-0 right-0 w-96 h-96 bg-teal-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"
-      />
-      <div
-        class="absolute bottom-0 left-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"
-      />
-    </div>
+    <!-- Teal accent bar at top -->
+    <div class="h-[12px] bg-teal-500" />
 
-    <div class="relative z-10 text-center space-y-8 max-w-2xl">
-      <div class="text-8xl">
-        {{ emoji }}
+    <!-- Main content area -->
+    <div class="flex-1 flex flex-col justify-center items-start p-[80px]">
+      <!-- Icon/Badge area -->
+      <div class="mb-8 flex items-center gap-3">
+        <div class="w-[16px] h-[16px] rounded-full bg-teal-500" />
+        <span class="text-[20px] font-semibold text-teal-600 tracking-wide">
+          {{ title.toUpperCase() }}
+        </span>
       </div>
 
-      <h1 class="text-6xl font-bold text-white leading-tight">
+      <!-- Main title -->
+      <h1
+        class="text-[80px] font-bold m-0 leading-[1.1] mb-6 max-w-[1000px]"
+        style="text-wrap: balance"
+      >
         {{ title }}
       </h1>
 
-      <p class="text-3xl text-teal-300 font-semibold">
-        {{ subtitle }}
-      </p>
-
-      <p class="text-xl text-slate-400 mt-8">
-        Let's discuss your IoT, AI, or custom software project
-      </p>
-    </div>
-
-    <div class="absolute bottom-8 right-8 text-right text-slate-400">
-      <p class="text-sm">
-        NodeWave
-      </p>
-      <p class="text-xs text-slate-500">
-        IoT • AI • Software
+      <!-- Description -->
+      <p
+        v-if="description"
+        class="text-[36px] text-neutral-600 leading-[1.4] max-w-[1000px] font-light"
+      >
+        {{ description }}
       </p>
     </div>
+
+    <!-- Bottom right accent elements -->
+    <div class="absolute bottom-0 right-0 opacity-10">
+      <div class="w-[300px] h-[300px] rounded-full bg-teal-500" />
+    </div>
+
+    <!-- Additional accent line -->
+    <div
+      class="absolute bottom-[80px] right-[80px] w-[2px] h-[60px] bg-teal-500"
+    />
   </div>
 </template>
-
-<script setup lang="ts">
-withDefaults(
-  defineProps<{
-    title?: string
-    subtitle?: string
-    emoji?: string
-  }>(),
-  {
-    title: 'Let\'s Build Something Together',
-    subtitle: 'Contact NodeWave',
-    emoji: '💬'
-  }
-)
-</script>

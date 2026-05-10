@@ -11,19 +11,6 @@ export default defineAppConfig({
     },
     strategy: 'override',
     palette: {
-      brand: {
-        50: '#f0f9ff',
-        100: '#e0f2fe',
-        200: '#bae6fd',
-        300: '#7dd3fc',
-        400: '#38bdf8',
-        500: '#3b82f6',
-        600: '#2563eb',
-        700: '#1d4ed8',
-        800: '#1e40af',
-        900: '#1e3a8a',
-        950: '#172554'
-      },
       teal: {
         50: '#f0fdfa',
         100: '#ccfbf1',
@@ -35,7 +22,7 @@ export default defineAppConfig({
         700: '#0f766e',
         800: '#115e59',
         900: '#134e4a',
-        950: '#0C1B20'
+        950: '#042f2e'
       },
       success: {
         50: '#ecfdf5',

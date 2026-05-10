@@ -4,26 +4,19 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 import type { Link } from '~/types'
 import { siteConfig } from '~/app.meta'
 
+const title = 'Contact'
+const description = `Get in touch with ${siteConfig.name} to discuss IoT, AI, web, and custom software projects. ${siteConfig.description}`
+
 useSeoMeta({
-  title: 'Contact',
-  description: `Get in touch with ${siteConfig.name} to discuss IoT, AI, web, and custom software projects. ${siteConfig.description}`,
+  title,
+  description,
   keywords:
-    'contact, IoT solutions, AI development, custom software, web development',
-  ogTitle: `Contact ${siteConfig.name} - Let's Build Something Together`,
-  ogDescription: `Reach out to discuss your IoT, AI, or custom software project. We respond within one business day.`,
-  ogImage: siteConfig.ogImage,
-  ogType: 'website',
-  ogUrl: `${siteConfig.url}/contact`,
-  twitterCard: 'summary_large_image',
-  twitterTitle: `Contact ${siteConfig.name} - IoT & Custom Software`,
-  twitterDescription: `Let's discuss your project. Fast response, flexible engagement.`,
-  twitterCreator: siteConfig.twitterHandle
+    'contact, IoT solutions, AI development, custom software, web development'
 })
 
 defineOgImage('Contact', {
-  title: `Contact ${siteConfig.name}`,
-  subtitle: siteConfig.description,
-  emoji: '💬'
+  title,
+  description
 })
 
 const schemaOrg = {
