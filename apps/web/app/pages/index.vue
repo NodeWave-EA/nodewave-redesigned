@@ -11,8 +11,8 @@ defineOgImage('Index', {
   title,
   description,
   meta: {
-    theme: 'teal',
-    layout: 'split',
+    theme: 'violet',
+    layout: 'center',
     brand: 'nodewave'
   }
 })

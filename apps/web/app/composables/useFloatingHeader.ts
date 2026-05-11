@@ -18,7 +18,7 @@ export function useFloatingHeader() {
   })
 
   const headerClass = computed(() => [
-    'fixed inset-x-0 top-0 z-50',
+    'sticky inset-x-0 top-0 z-50',
     'transition-all duration-300 ease-out',
     isFloating.value ? 'px-2 pt-4' : 'px-0 pt-0'
   ])

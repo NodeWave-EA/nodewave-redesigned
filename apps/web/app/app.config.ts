@@ -64,9 +64,6 @@ export default defineAppConfig({
         }
       }
     },
-    container: {
-      base: ''
-    },
     toaster: {
       slots: {
         viewport: 'z-10001'
