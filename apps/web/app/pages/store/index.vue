@@ -9,22 +9,20 @@ useSeoMeta({
   keywords: 'store, NodeWave, merchandise, accessories, support'
 })
 
-defineOgImage('Index', {
-  title,
-  description,
-  meta: {
-    theme: 'violet',
-    layout: 'split',
-    brand: 'nodewave'
-  }
-})
+defineOgImage(
+  'NuxtSeo.takumi',
+  {
+    title,
+    description
+  },
+  {}
+)
 </script>
 
 <template>
   <UContainer>
-    <h1 class="text-3xl font-bold mb-4">
-      Store
-    </h1>
+    <h1>Store</h1>
+
     <p class="text-lg text-muted-foreground">
       Welcome to the NodeWave store! Here you can find merchandise and
       accessories to show your support for our project. Stay tuned for upcoming

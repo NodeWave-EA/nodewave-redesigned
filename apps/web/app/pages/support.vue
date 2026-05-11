@@ -9,15 +9,14 @@ useSeoMeta({
   keywords: 'support, NodeWave, help, contact'
 })
 
-defineOgImage('Index', {
-  title,
-  description,
-  meta: {
-    theme: 'teal',
-    layout: 'split',
-    brand: 'nodewave'
-  }
-})
+defineOgImage(
+  'NuxtSeo.takumi',
+  {
+    title,
+    description
+  },
+  {}
+)
 </script>
 
 <template>

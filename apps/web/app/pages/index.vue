@@ -7,15 +7,15 @@ useSeoMeta({
   keywords:
     'NodeWave, Nuxt 3 starter template, features, getting started, production-ready'
 })
-defineOgImage('Index', {
-  title,
-  description,
-  meta: {
-    theme: 'violet',
-    layout: 'center',
-    brand: 'nodewave'
-  }
-})
+
+defineOgImage(
+  'NuxtSeo.takumi',
+  {
+    title,
+    description
+  },
+  {}
+)
 </script>
 
 <template>

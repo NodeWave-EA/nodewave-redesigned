@@ -30,18 +30,17 @@ const socialActions = socialLinks.map(link => ({
 </script>
 
 <template>
-  <UFooter
-    class="mt-16 border-t border-default/70"
-    :ui="{
-      top: 'border-b border-default/60',
-      bottom: 'py-6',
-      container: 'px-4 sm:px-6 lg:px-8'
-    }"
-  >
-    <template #top>
-      <UContainer class="py-12 sm:py-14 lg:py-16">
+  <UContainer>
+    <UFooter
+      :ui="{
+        // top: 'border-b border-default/60',
+        // bottom: 'py-6',
+        // container: 'px-4 sm:px-6 lg:px-8'
+      }"
+    >
+      <template #top>
         <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-          <section class="space-y-5">
+          <section>
             <div class="flex items-center gap-3">
               <UiAppLogo />
             </div>
@@ -165,13 +164,11 @@ const socialActions = socialLinks.map(link => ({
             </section>
           </nav>
         </div>
-      </UContainer>
-    </template>
+      </template>
 
-    <template #bottom>
-      <UContainer class="py-0">
+      <template #bottom>
         <div
-          class="flex flex-col items-center gap-5 pt-6 text-center md:flex-row md:justify-between md:text-left"
+          class="flex flex-col-reverse items-center text-center md:flex-row md:justify-between md:text-left"
         >
           <p class="text-sm text-muted md:max-w-[65%]">
             &copy; {{ year }}
@@ -202,7 +199,7 @@ const socialActions = socialLinks.map(link => ({
             </UTooltip>
           </div>
         </div>
-      </UContainer>
-    </template>
-  </UFooter>
+      </template>
+    </UFooter>
+  </UContainer>
 </template>

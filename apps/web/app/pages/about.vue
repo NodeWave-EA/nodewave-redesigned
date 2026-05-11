@@ -8,15 +8,15 @@ useSeoMeta({
   keywords:
     'about, NodeWave, Nuxt 3 starter template, features, getting started'
 })
-defineOgImage('About', {
-  title,
-  description,
-  meta: {
-    theme: 'dark',
-    layout: 'center',
-    brand: 'nodewave'
-  }
-})
+
+defineOgImage(
+  'NuxtSeo.takumi',
+  {
+    title,
+    description
+  },
+  {}
+)
 
 // No imports needed! The @vueuse/motion/nuxt module handles auto-imports.
 const boxVisible = ref(true)

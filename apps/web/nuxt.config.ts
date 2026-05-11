@@ -26,7 +26,8 @@ export default defineNuxtConfig({
         }
       }
     ],
-    '@nuxtjs/turnstile'
+    '@nuxtjs/turnstile',
+    'nuxt-ai-ready'
   ],
 
   devtools: {
@@ -116,6 +117,21 @@ export default defineNuxtConfig({
     prerender: {
       crawlLinks: true,
       routes: ['/']
+    }
+  },
+
+  aiReady: {
+    autoI18n: true,
+    cron: true,
+    indexNow: true,
+    runtimeSync: {
+      ttl: 3600,
+      batchSize: 20,
+      pruneTtl: 0
+    },
+    contentSignal: {
+      search: true,
+      aiInput: true
     }
   },
 

@@ -20,15 +20,14 @@ useSeoMeta({
     'contact, IoT solutions, AI development, custom software, web development'
 })
 
-defineOgImage('Contact', {
-  title,
-  description,
-  meta: {
-    theme: 'violet',
-    layout: 'split',
-    brand: 'nodewave'
-  }
-})
+defineOgImage(
+  'NuxtSeo.takumi',
+  {
+    title,
+    description
+  },
+  {}
+)
 
 const schemaOrg = {
   '@context': 'https://schema.org',
@@ -182,7 +181,7 @@ const controlUi = {
 
 const selectUi = {
   ...controlUi,
-  placeholder: 'text-default'
+  placeholder: 'text-muted'
 }
 
 const textareaUi = {
@@ -323,7 +322,7 @@ function formatFieldLabel(name: string): string {
 </script>
 
 <template>
-  <UContainer class="py-0 px-0">
+  <UContainer class="p-0">
     <UPageHero
       headline="Get in touch"
       title="Let's Build Something Amazing Together"
@@ -344,7 +343,7 @@ function formatFieldLabel(name: string): string {
     <div
       class="flex flex-col-reverse gap-8 lg:grid lg:grid-cols-[0.92fr_1.08fr] lg:items-start"
     >
-      <section class="space-y-6 lg:sticky lg:top-8">
+      <section class="space-y-6 lg:sticky lg:top-20">
         <div class="p-4">
           <p
             class="text-[14px] font-semibold uppercase tracking-[0.28em] text-primary mb-8"
@@ -352,7 +351,7 @@ function formatFieldLabel(name: string): string {
             Contact options
           </p>
 
-          <div class="mt-5 space-y-4">
+          <div class="mt-5 grid gap-x-4 gap-y-4 md:grid-cols-2 lg:grid-cols-1">
             <div
               v-for="detail in contactDetails"
               :key="detail.title"
@@ -629,6 +628,7 @@ function formatFieldLabel(name: string): string {
               type="submit"
               size="lg"
               :loading="loading"
+              :class="loading ? 'cursor-progress' : 'cursor-pointer'"
               :trailing-icon="loading ? '' : 'i-lucide-send'"
               :ui="{
                 base: 'w-full py-4 justify-center sm:w-auto text-lg sm:text-base md:text-sm',
@@ -645,5 +645,7 @@ function formatFieldLabel(name: string): string {
         </UForm>
       </section>
     </div>
+
+    <ContactOurLocation />
   </UContainer>
 </template>

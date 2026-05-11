@@ -9,15 +9,29 @@ useSeoMeta({
   keywords: 'blog, NodeWave, news, updates, insights'
 })
 
-defineOgImage('Index', {
-  title,
-  description,
-  meta: {
-    theme: 'teal',
-    layout: 'center',
-    brand: 'nodewave'
-  }
+useSeoMeta({
+  twitterTitle: title,
+  twitterDescription: description
 })
+
+useHead({
+  link: [
+    {
+      rel: 'icon',
+      type: 'image/png',
+      href: '/favicon.png'
+    }
+  ]
+})
+
+defineOgImage(
+  'NuxtSeo.takumi',
+  {
+    title,
+    description
+  },
+  {}
+)
 </script>
 
 <template>
