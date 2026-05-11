@@ -223,7 +223,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         {
           label: 'Read our blog',
           to: '/blog',
-          target: '_blank'
+          target: '_self'
         }
       ]
     })

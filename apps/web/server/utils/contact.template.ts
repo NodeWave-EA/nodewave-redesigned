@@ -39,7 +39,7 @@ export function createContactNotificationEmail({
 
     <!-- HEADER -->
     <div style="padding:32px;border-bottom:1px solid #eef2f7;text-align:center;">
-      <img src="${SITE_URL}/preview.png" width="52" height="52" style="border-radius:12px;" />
+      <img src="${SITE_URL}/preview.png" width="52" height="52" />
 
       <h1 style="margin:14px 0 6px;font-size:26px;color:#202124;font-weight:600;">
         NodeWave
