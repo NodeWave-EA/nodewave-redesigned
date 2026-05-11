@@ -1,7 +1,10 @@
 import { resolveMx, lookup as dnsLookup } from 'node:dns/promises'
 import type { ContactFieldError, ContactResponseSuccess } from '#shared/types'
 import { ContactSchema } from '#shared/schemas'
-import { getEmailProvider } from '~~/server/utils'
+import {
+  createContactNotificationEmail,
+  getEmailProvider
+} from '~~/server/utils'
 
 type CachedMxResult = {
   value: boolean
@@ -85,36 +88,22 @@ export default defineEventHandler(async (event) => {
 
   try {
     const emailProvider = getEmailProvider()
-
-    // Format email content
-    const emailHtml = `
-      <h2>New Contact Form Submission</h2>
-      <p><strong>Name:</strong> ${firstName} ${lastName}</p>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Phone:</strong> ${phone}</p>
-      <p><strong>Subject:</strong> ${subject}</p>
-      <h3>Message:</h3>
-      <p>${message.replace(/\n/g, '<br />')}</p>
-    `
-
-    const emailText = `
-New Contact Form Submission
-
-Name: ${firstName} ${lastName}
-Email: ${email}
-Phone: ${phone}
-Subject: ${subject}
-
-Message:
-${message}
-    `
+    const { html, text, amp } = createContactNotificationEmail({
+      firstName,
+      lastName,
+      email,
+      phone,
+      subject,
+      message
+    })
 
     // Send email to admin
     await emailProvider.send({
       to: process.env.NUXT_CONTACT_EMAIL || 'info@nodewave.net',
       subject: `New Contact: ${subject}`,
-      html: emailHtml,
-      text: emailText
+      html,
+      text,
+      amp
     })
 
     console.log('Processing contact message from:', email)

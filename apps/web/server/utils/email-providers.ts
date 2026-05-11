@@ -9,6 +9,7 @@ export interface EmailOptions {
   subject: string
   html: string
   text?: string
+  amp?: string
 }
 
 class SmtpProvider implements EmailProvider {
